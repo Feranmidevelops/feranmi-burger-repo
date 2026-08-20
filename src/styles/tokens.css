@@ -26,6 +26,12 @@
   --fs-body: 1rem; /* 16 */
   --fs-small: clamp(0.875rem, 0.831rem + 0.188vw, 1rem); /* 14 -> 16 */
 
+  /* ---- Form controls (shared by input, textarea and select) ---- */
+  --control-min-h: 3.25rem;
+  --control-pad-x: 1rem;
+  --control-pad-y: 0.75rem;
+  --control-border: 1px;
+
   /* ---- Layout ---- */
   --page-max: 1440px;
   --gutter: clamp(1.25rem, 0.59rem + 2.817vw, 3.125rem); /* 20 -> 50 */

@@ -30,6 +30,9 @@ npm run dev
   submit it mints an order reference and builds a formatted WhatsApp message.
 - **Reservations** — date, time, party size and occasion, validated against the
   restaurant's actual seating slots, ending in the same WhatsApp handoff.
+- **Invoice** — every placed order renders a one-page A4 PDF (jsPDF, loaded on
+  demand) that the customer can download, or push straight into WhatsApp via the
+  native share sheet on mobile.
 
 ### Why WhatsApp
 
@@ -71,6 +74,14 @@ Decisions worth flagging:
   change, there's a skip link, form errors are tied to their inputs with
   `aria-describedby` and `aria-invalid`, and the first invalid field takes focus
   on a failed submit.
+- **Selects are a custom combobox.** A native `<select>`'s option list is painted
+  by the OS and cannot be themed, so brand colours would stop at the closed
+  control. [`Select.tsx`](src/components/Select.tsx) implements the WAI-ARIA 1.2
+  select-only combobox pattern — `aria-activedescendant`, arrow/Home/End keys,
+  typeahead, Escape, and flip-up when there's no room below.
+- **One set of control metrics.** `--control-min-h`, `--control-pad-x` and
+  `--control-pad-y` in `tokens.css` are shared by every input, textarea and
+  select, so nothing drifts out of alignment.
 
 ## Deployment
 

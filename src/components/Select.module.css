@@ -1,0 +1,153 @@
+/*
+ * Brand-themed select. Trigger and list share the same horizontal padding
+ * (--sel-pad-x) and the same border weight, so the open panel reads as an
+ * extension of the closed control rather than an OS popup.
+ */
+
+.root {
+  --sel-pad-x: var(--control-pad-x);
+  --sel-pad-y: var(--control-pad-y);
+  position: relative;
+  width: 100%;
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+  min-height: var(--control-min-h);
+  padding: var(--sel-pad-y) var(--sel-pad-x);
+  border: var(--control-border) solid var(--c-ink);
+  border-radius: 0;
+  background: var(--c-white);
+  color: var(--c-ink);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.15s var(--ease), box-shadow 0.15s var(--ease);
+}
+
+.trigger:hover {
+  border-color: var(--c-orange);
+}
+
+.trigger[data-open='true'] {
+  border-color: var(--c-orange);
+  box-shadow: inset 0 0 0 1px var(--c-orange);
+}
+
+.trigger[data-invalid='true'] {
+  border-width: 2px;
+  border-color: #b3200a;
+}
+
+.trigger:focus-visible {
+  outline: 3px solid var(--c-orange);
+  outline-offset: 2px;
+}
+
+.value {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chevron {
+  flex: none;
+  width: 1rem;
+  height: 1rem;
+  color: var(--c-orange);
+  transition: transform 0.2s var(--ease);
+}
+
+.trigger[data-open='true'] .chevron {
+  transform: rotate(180deg);
+}
+
+/* Panel ------------------------------------------------------------------ */
+
+.list {
+  position: absolute;
+  z-index: 30;
+  left: 0;
+  right: 0;
+  top: calc(100% - 1px);
+  max-height: 20rem;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+  border: var(--control-border) solid var(--c-ink);
+  background: var(--c-white);
+  box-shadow: 0 14px 30px rgb(0 0 0 / 0.16);
+  animation: pop 0.14s var(--ease);
+}
+
+.list[data-drop-up='true'] {
+  top: auto;
+  bottom: calc(100% - 1px);
+  transform-origin: bottom;
+}
+
+.option {
+  display: grid;
+  gap: 0.15rem;
+  padding: var(--sel-pad-y) var(--sel-pad-x);
+  border-bottom: 1px solid rgb(0 0 0 / 0.1);
+  cursor: pointer;
+  /* Reserve the tick column so labels don't shift when selection moves. */
+  padding-left: calc(var(--sel-pad-x) + 1.125rem);
+  position: relative;
+}
+
+.option:last-child {
+  border-bottom: 0;
+}
+
+.option[data-active='true'] {
+  background: var(--c-orange);
+  color: var(--c-ink);
+}
+
+.option[aria-selected='true']::before {
+  content: '';
+  position: absolute;
+  left: var(--sel-pad-x);
+  top: 50%;
+  width: 0.5rem;
+  height: 0.5rem;
+  margin-top: -0.25rem;
+  background: var(--c-ink);
+}
+
+.option[aria-selected='true'][data-active='true']::before {
+  background: var(--c-ink);
+}
+
+.optionLabel {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.optionMeta {
+  font-size: var(--fs-small);
+  font-weight: 400;
+  line-height: 1.3;
+  opacity: 0.7;
+}
+
+.option[data-active='true'] .optionMeta {
+  opacity: 0.85;
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}

@@ -170,3 +170,38 @@ export function Pin({ className }: IconProps) {
     </svg>
   )
 }
+
+export function Download({ className }: IconProps) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      focusable="false"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="square"
+    >
+      <path d="M12 3v12M6.5 10 12 15.5 17.5 10M4 20h16" />
+    </svg>
+  )
+}
+
+export function Share({ className }: IconProps) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      focusable="false"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="square"
+    >
+      <path d="M12 16V3M7 8l5-5 5 5" />
+      <path d="M5 13v7h14v-7" />
+    </svg>
+  )
+}

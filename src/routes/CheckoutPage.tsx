@@ -4,7 +4,7 @@ import { useCart } from '../cart/CartContext'
 import { DELIVERY_MINIMUM, deliveryZones, site, addressLine } from '../data/site'
 import { formatNaira } from '../lib/money'
 import { reference } from '../lib/id'
-import { orderMessage, whatsappLink, type OrderDetails } from '../lib/whatsapp'
+import { type OrderDetails } from '../lib/whatsapp'
 import {
   isClean,
   minLength,
@@ -14,7 +14,9 @@ import {
 } from '../lib/validation'
 import { EmptyState, Field, PageHeader, Summary } from '../components/ui'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
-import { Check, WhatsApp } from '../components/Icons'
+import { Check } from '../components/Icons'
+import { InvoiceActions } from '../components/InvoiceActions'
+import { Select } from '../components/Select'
 import styles from './CheckoutPage.module.css'
 
 interface Form {
@@ -140,15 +142,8 @@ export function CheckoutPage() {
                 total={['Total', formatNaira(placed.total)]}
               />
 
-              <a
-                className={styles.whatsapp}
-                href={whatsappLink(orderMessage(placed))}
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                <WhatsApp className={styles.whatsappIcon} />
-                Send order on WhatsApp
-              </a>
+              <InvoiceActions order={placed} />
+
               <p className={styles.small}>
                 Or call us on <a href={`tel:+${site.whatsapp}`}>{site.phoneDisplay}</a>.
               </p>
@@ -268,19 +263,18 @@ export function CheckoutPage() {
                 <>
                   <Field id="zone" label="Delivery area" error={errors.zoneId}>
                     {(describedBy) => (
-                      <select
+                      <Select
                         id="zone"
-                        name="zone"
                         value={form.zoneId}
-                        aria-describedby={describedBy}
-                        onChange={(event) => set('zoneId', event.target.value)}
-                      >
-                        {deliveryZones.map((entry) => (
-                          <option key={entry.id} value={entry.id}>
-                            {entry.name} — {formatNaira(entry.fee)} · {entry.eta}
-                          </option>
-                        ))}
-                      </select>
+                        describedBy={describedBy}
+                        invalid={Boolean(errors.zoneId)}
+                        options={deliveryZones.map((entry) => ({
+                          value: entry.id,
+                          label: entry.name,
+                          meta: `${formatNaira(entry.fee)} · ${entry.eta}`,
+                        }))}
+                        onChange={(next) => set('zoneId', next)}
+                      />
                     )}
                   </Field>
 

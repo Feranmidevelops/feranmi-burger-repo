@@ -102,11 +102,18 @@
 .note input {
   width: 100%;
   min-height: 2.75rem;
-  padding: 0.5rem 0.75rem;
-  border: 1px solid rgb(0 0 0 / 0.25);
+  padding: 0.5rem var(--control-pad-x);
+  border: var(--control-border) solid rgb(0 0 0 / 0.25);
   border-radius: 0;
   background: var(--c-cream);
   font-size: 0.9375rem;
+  line-height: 1.25;
+  transition: border-color 0.15s var(--ease);
+}
+
+.note input:hover,
+.note input:focus {
+  border-color: var(--c-orange);
 }
 
 .clear {

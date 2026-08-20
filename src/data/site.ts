@@ -13,8 +13,8 @@ export const site = {
   name: 'Feranmi Restaurant',
   tagline: "Lagos' favourite burger",
   /** E.164, no spaces — used to build wa.me links. */
-  whatsapp: '2348000000000',
-  phoneDisplay: '+234 800 000 0000',
+  whatsapp: '2349036161857',
+  phoneDisplay: '+234 903 616 1857',
   email: 'hello@feranmirestaurant.ng',
   address: {
     street: '12 Admiralty Way',

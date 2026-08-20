@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { categories, menu, type Category } from '../data/menu'
 import { MenuCard } from '../components/MenuCard'
+import { Select } from '../components/Select'
 import { PageHeader, EmptyState } from '../components/ui'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
 import styles from './MenuPage.module.css'
@@ -83,20 +84,13 @@ export function MenuPage() {
             </div>
 
             <div className={styles.sort}>
-              <label className="visuallyHidden" htmlFor="menu-sort">
-                Sort by
-              </label>
-              <select
+              <Select
                 id="menu-sort"
+                label="Sort by"
                 value={sort}
-                onChange={(event) => update('sort', event.target.value)}
-              >
-                {SORTS.map((option) => (
-                  <option key={option.id} value={option.id}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
+                options={SORTS.map((option) => ({ value: option.id, label: option.label }))}
+                onChange={(next) => update('sort', next)}
+              />
             </div>
           </div>
 

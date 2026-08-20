@@ -9,6 +9,7 @@ import {
 } from '../lib/whatsapp'
 import { futureDate, isClean, minLength, nigerianPhone, type Errors } from '../lib/validation'
 import { Field, PageHeader } from '../components/ui'
+import { Select } from '../components/Select'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
 import { Check, Pin, WhatsApp } from '../components/Icons'
 import { asset } from '../lib/asset'
@@ -199,35 +200,29 @@ export function ReservationsPage() {
 
                 <Field id="res-time" label="Time" error={errors.time}>
                   {(describedBy) => (
-                    <select
+                    <Select
                       id="res-time"
                       value={form.time}
-                      aria-describedby={describedBy}
-                      onChange={(event) => set('time', event.target.value)}
-                    >
-                      {RESERVATION_SLOTS.map((slot) => (
-                        <option key={slot} value={slot}>
-                          {slot}
-                        </option>
-                      ))}
-                    </select>
+                      describedBy={describedBy}
+                      invalid={Boolean(errors.time)}
+                      options={RESERVATION_SLOTS.map((slot) => ({ value: slot, label: slot }))}
+                      onChange={(next) => set('time', next)}
+                    />
                   )}
                 </Field>
 
                 <Field id="res-party" label="Guests">
                   {(describedBy) => (
-                    <select
+                    <Select
                       id="res-party"
                       value={form.partySize}
-                      aria-describedby={describedBy}
-                      onChange={(event) => set('partySize', event.target.value)}
-                    >
-                      {PARTY_SIZES.map((size) => (
-                        <option key={size} value={size}>
-                          {size}
-                        </option>
-                      ))}
-                    </select>
+                      describedBy={describedBy}
+                      options={PARTY_SIZES.map((size) => ({
+                        value: String(size),
+                        label: size === 1 ? '1 guest' : `${size} guests`,
+                      }))}
+                      onChange={(next) => set('partySize', next)}
+                    />
                   )}
                 </Field>
               </div>
