@@ -1,0 +1,166 @@
+/*
+ * Figma desktop: orange plate 1440x640 at y=5856. Social row at (50,146),
+ * heading 40/80 at y=269, form 545x59 at y=429, legal row at y=568,
+ * nav links right-aligned at (1020,193).
+ */
+
+.footer {
+  background: var(--c-orange);
+  color: var(--c-ink);
+  padding-block: clamp(3rem, 1.5rem + 6vw, 9.125rem);
+}
+
+.inner {
+  display: grid;
+  gap: clamp(2rem, 1rem + 4vw, 3rem);
+}
+
+@media (min-width: 900px) {
+  .inner {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+  }
+}
+
+.main {
+  display: grid;
+  justify-items: start;
+}
+
+.social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(0.75rem, 0.3rem + 2vw, 1.5rem);
+  margin-bottom: clamp(1.5rem, 0.8rem + 3vw, 3.5rem);
+}
+
+.social a {
+  display: block;
+  transition: transform 0.2s var(--ease);
+}
+
+.social a:hover {
+  transform: translateY(-3px) rotate(-6deg);
+}
+
+.socialIcon {
+  width: clamp(1.5rem, 0.9rem + 2.6vw, 4.25rem);
+  height: auto;
+}
+
+.heading {
+  max-width: 16ch;
+  font-size: clamp(2rem, 1.7rem + 1.3vw, 2.5rem);
+  line-height: 1.15;
+}
+
+.body {
+  max-width: 600px;
+  margin-top: clamp(1rem, 0.6rem + 1.5vw, 1.5rem);
+  font-size: var(--fs-small);
+  line-height: 1.5;
+}
+
+.form {
+  display: grid;
+  gap: 0.75rem;
+  width: 100%;
+  margin-top: clamp(1.25rem, 0.7rem + 2vw, 2.25rem);
+}
+
+@media (min-width: 560px) {
+  .form {
+    grid-template-columns: minmax(0, 414fr) minmax(131px, 131fr);
+    gap: 0;
+    max-width: 545px;
+  }
+}
+
+.input {
+  min-height: 59px;
+  padding-inline: 1.25rem;
+  border: 1px solid var(--c-ink);
+  background: transparent;
+  font-size: var(--fs-body);
+}
+
+.input::placeholder {
+  color: var(--c-ink);
+  opacity: 0.75;
+}
+
+.submit {
+  min-height: 59px;
+  padding-inline: 1.5rem;
+  border: 1px solid var(--c-ink);
+  background: var(--c-ink);
+  color: var(--c-white);
+  font-size: 1.125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.submit:hover {
+  background: var(--c-white);
+  color: var(--c-ink);
+}
+
+.status {
+  min-height: 1.5em;
+  margin-top: 0.5rem;
+  font-size: var(--fs-small);
+  font-weight: 600;
+}
+
+.legal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  margin-top: clamp(1.5rem, 0.8rem + 3vw, 3.25rem);
+  font-size: var(--fs-small);
+  letter-spacing: 0.02em;
+}
+
+.legal a:hover {
+  text-decoration: underline;
+}
+
+.nav ul {
+  display: grid;
+  gap: clamp(1rem, 0.5rem + 2vw, 2rem);
+  font-size: var(--fs-nav);
+  font-weight: 600;
+}
+
+@media (min-width: 900px) {
+  .main {
+    order: 1;
+  }
+
+  .nav {
+    order: 2;
+    justify-self: end;
+  }
+
+  .nav ul {
+    text-align: right;
+  }
+}
+
+@media (max-width: 899px) {
+  .nav ul {
+    justify-items: center;
+    text-align: center;
+  }
+
+  .main {
+    justify-items: center;
+    text-align: center;
+  }
+
+  .legal,
+  .social {
+    justify-content: center;
+  }
+}

@@ -1,0 +1,37 @@
+/*
+ * Design tokens extracted from the Figma file "Burger_Landing".
+ * Desktop frame: 1440 x 6496. Mobile frame: 375 x 6921.
+ * Type sizes use clamp() to interpolate between the two frames.
+ */
+:root {
+  /* ---- Palette ---- */
+  --c-orange: #ee4a1e; /* primary brand orange */
+  --c-orange-ink: #e94f1d; /* marquee text (slightly warmer in the file) */
+  --c-cream: #f6f2f0; /* section background */
+  --c-yellow: #eef866; /* accent — badges, marquee band, follow card */
+  --c-ink: #000000;
+  --c-white: #ffffff;
+  --c-placeholder: #d9d9d9;
+
+  /* ---- Type families ---- */
+  --font-display: 'Bowlby One', 'Arial Black', system-ui, sans-serif;
+  --font-body: 'Oswald', 'Arial Narrow', system-ui, sans-serif;
+
+  /* ---- Type scale (mobile -> desktop) ---- */
+  --fs-hero: clamp(2.5rem, 0.959rem + 6.573vw, 6.875rem); /* 40 -> 110 */
+  --fs-h2: clamp(2rem, 1.12rem + 3.756vw, 4.5rem); /* 32 -> 72 */
+  --fs-h3: clamp(1.5rem, 1.148rem + 1.502vw, 2.5rem); /* 24 -> 40 */
+  --fs-lead: clamp(1.125rem, 0.993rem + 0.563vw, 1.5rem); /* 18 -> 24 */
+  --fs-nav: clamp(1.25rem, 1.162rem + 0.376vw, 1.5rem); /* 20 -> 24 */
+  --fs-body: 1rem; /* 16 */
+  --fs-small: clamp(0.875rem, 0.831rem + 0.188vw, 1rem); /* 14 -> 16 */
+
+  /* ---- Layout ---- */
+  --page-max: 1440px;
+  --gutter: clamp(1.25rem, 0.59rem + 2.817vw, 3.125rem); /* 20 -> 50 */
+  --grid-gap: 16px;
+
+  /* ---- Motion ---- */
+  --marquee-duration: 32s;
+  --ease: cubic-bezier(0.2, 0.7, 0.3, 1);
+}

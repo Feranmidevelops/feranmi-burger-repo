@@ -1,0 +1,63 @@
+.wrap {
+  position: relative;
+  z-index: 5;
+  display: grid;
+  height: clamp(5.5rem, 4rem + 4vw, 9rem);
+  /* The strip crosses the seam between two cream plates in the frame. */
+  background: var(--c-cream);
+  overflow: hidden;
+  user-select: none;
+}
+
+.band {
+  grid-area: 1 / 1;
+  display: flex;
+  align-items: center;
+  align-self: center;
+  width: 118%;
+  margin-left: -9%;
+  height: clamp(3.0625rem, 2.5rem + 2.2vw, 4.5rem);
+  background: var(--c-yellow);
+  transform: rotate(-2.66deg);
+  overflow: hidden;
+}
+
+.band[data-reverse='true'] {
+  transform: rotate(2.71deg);
+}
+
+.track {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: clamp(1.5rem, 1rem + 2vw, 2.75rem);
+  padding-right: clamp(1.5rem, 1rem + 2vw, 2.75rem);
+  animation: scroll var(--marquee-duration) linear infinite;
+}
+
+.band[data-reverse='true'] .track {
+  animation-direction: reverse;
+}
+
+.item {
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(1.5rem, 1rem + 2vw, 2.75rem);
+  flex: none;
+  color: var(--c-orange-ink);
+  font-size: var(--fs-nav);
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.sparkle {
+  width: clamp(1.25rem, 1rem + 1vw, 2rem);
+  height: auto;
+}
+
+@keyframes scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}

@@ -1,0 +1,97 @@
+/*
+ * Figma desktop: cream plate 1440x1169 at y=4398; heading at (50,4630);
+ * three 435-wide masonry columns on a 16px gutter starting at y=4850.
+ */
+
+.reviews {
+  position: relative;
+  background: var(--c-cream);
+  padding-block: 0 clamp(3rem, 1.5rem + 5vw, 6.25rem);
+}
+
+.inner {
+  display: grid;
+  gap: clamp(1.5rem, 0.8rem + 3vw, 3.5rem);
+}
+
+.intro {
+  display: grid;
+  gap: clamp(0.75rem, 0.4rem + 1.2vw, 1rem);
+  max-width: 800px;
+}
+
+.introBody {
+  color: var(--c-orange);
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--grid-gap);
+  align-items: start;
+}
+
+.column {
+  display: grid;
+  gap: var(--grid-gap);
+  align-content: start;
+}
+
+.stack {
+  display: grid;
+  gap: var(--grid-gap);
+}
+
+.card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: clamp(1rem, 0.7rem + 1vw, 1.0625rem);
+  margin: 0;
+  padding: clamp(1.25rem, 1rem + 0.8vw, 1.5rem);
+  background: var(--c-white);
+}
+
+.avatar {
+  width: clamp(2rem, 1.6rem + 1.7vw, 3rem);
+  height: clamp(2rem, 1.6rem + 1.7vw, 3rem);
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--c-placeholder);
+}
+
+.text {
+  display: grid;
+  gap: clamp(0.5rem, 0.3rem + 0.8vw, 0.8125rem);
+  align-content: start;
+}
+
+.author {
+  font-size: clamp(0.875rem, 0.75rem + 0.5vw, 1.25rem);
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.quote {
+  display: grid;
+  gap: 1em;
+  margin: 0;
+  font-size: var(--fs-body);
+  line-height: 1.5;
+}
+
+.loadMore {
+  justify-self: stretch;
+  min-height: 3.375rem;
+  border: 1px solid var(--c-ink);
+  background: transparent;
+  color: var(--c-ink);
+  font-size: 1.25rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.loadMore:hover {
+  background: var(--c-ink);
+  color: var(--c-white);
+}

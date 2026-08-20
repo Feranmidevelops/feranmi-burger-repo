@@ -1,0 +1,142 @@
+/* Figma desktop: 1440x840 orange plate; copy block at (46,180); art 500x500 at (870,188). */
+
+.hero {
+  position: relative;
+  background: var(--c-orange);
+  padding-block: clamp(6.5rem, 4rem + 8vw, 11.25rem) clamp(2.5rem, 1rem + 4vw, 4.5rem);
+  overflow: hidden;
+}
+
+.inner {
+  position: relative;
+  display: grid;
+  gap: clamp(1.75rem, 1rem + 3vw, 2.5rem);
+}
+
+.copy {
+  position: relative;
+  z-index: 2;
+  max-width: 1090px;
+}
+
+.heading {
+  font-size: var(--fs-hero);
+  letter-spacing: -0.01em;
+}
+
+.line {
+  display: block;
+}
+
+.body {
+  max-width: 600px;
+  margin-top: clamp(0.75rem, 0.6rem + 0.5vw, 1.1875rem);
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: clamp(3.375rem, 3.067rem + 1.315vw, 4.25rem);
+  margin-top: clamp(1.5rem, 0.8rem + 2.5vw, 3.25rem);
+  padding-inline: 2rem;
+  background: var(--c-ink);
+  color: var(--c-white);
+  font-size: var(--fs-nav);
+  font-weight: 600;
+  transition: background 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.cta:hover {
+  background: var(--c-white);
+  color: var(--c-ink);
+}
+
+.art {
+  position: relative;
+  justify-self: center;
+  width: min(261px, 70vw);
+  order: -1;
+}
+
+.figure {
+  margin: 0;
+  aspect-ratio: 1;
+  background: var(--c-placeholder);
+  overflow: hidden;
+}
+
+.figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.seal {
+  position: absolute;
+  top: -18%;
+  left: -14%;
+  display: grid;
+  place-items: center;
+  width: 34%;
+  aspect-ratio: 1;
+  color: var(--c-yellow);
+  animation: spin 14s linear infinite;
+}
+
+.sealBurst {
+  width: 100%;
+  height: 100%;
+}
+
+.sealFace {
+  position: absolute;
+  width: 46%;
+  height: auto;
+  color: var(--c-ink);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (min-width: 900px) {
+  .hero {
+    min-height: 840px;
+    display: grid;
+    align-items: center;
+  }
+
+  .inner {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .art {
+    position: absolute;
+    top: 50%;
+    right: var(--gutter);
+    order: 0;
+    width: min(500px, 36vw);
+    transform: translateY(-50%);
+  }
+
+  .seal {
+    top: 18%;
+    left: -25%;
+    width: 125px;
+  }
+
+  .cta {
+    width: auto;
+    min-width: 270px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .heading {
+    max-width: 1090px;
+  }
+}
