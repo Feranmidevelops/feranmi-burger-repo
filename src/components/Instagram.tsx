@@ -1,4 +1,5 @@
 import { instagram } from '../data/content'
+import { asset } from '../lib/asset'
 import styles from './Instagram.module.css'
 
 export function Instagram() {
@@ -13,7 +14,7 @@ export function Instagram() {
           target="_blank"
           rel="noreferrer noopener"
         >
-          <img src={tile.image} alt={tile.alt} width={288} height={289} loading="lazy" />
+          <img src={asset(tile.image)} alt={tile.alt} width={288} height={289} loading="lazy" />
         </a>
       ))}
 

@@ -1,0 +1,159 @@
+.pageHeader {
+  background: var(--c-orange);
+  padding-block: clamp(2rem, 1rem + 4vw, 4rem) clamp(2rem, 1rem + 4vw, 3.5rem);
+}
+
+.eyebrow {
+  font-size: var(--fs-small);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.pageTitle {
+  font-size: var(--fs-h2);
+  margin-top: 0.4rem;
+}
+
+.pageIntro {
+  max-width: 60ch;
+  margin-top: clamp(0.75rem, 0.5rem + 1vw, 1.25rem);
+  font-size: var(--fs-lead);
+  line-height: 1.5;
+}
+
+/* Quantity stepper ------------------------------------------------------- */
+
+.stepper {
+  display: inline-grid;
+  grid-template-columns: 2.25rem minmax(2.5rem, auto) 2.25rem;
+  align-items: stretch;
+  border: 1px solid var(--c-ink);
+  background: var(--c-white);
+}
+
+.stepper button {
+  border: 0;
+  background: transparent;
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s var(--ease), color 0.15s var(--ease);
+}
+
+.stepper button:hover:not(:disabled) {
+  background: var(--c-ink);
+  color: var(--c-white);
+}
+
+.stepper button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.stepper output {
+  display: grid;
+  place-items: center;
+  min-height: 2.25rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  border-inline: 1px solid var(--c-ink);
+}
+
+/* Form field ------------------------------------------------------------- */
+
+.field {
+  display: grid;
+  gap: 0.375rem;
+}
+
+.field label {
+  font-size: var(--fs-small);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.field :is(input, select, textarea) {
+  width: 100%;
+  min-height: 3.25rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--c-ink);
+  border-radius: 0;
+  background: var(--c-white);
+  font-size: 1rem;
+}
+
+.field textarea {
+  min-height: 6rem;
+  resize: vertical;
+}
+
+.field[data-invalid='true'] :is(input, select, textarea) {
+  border-width: 2px;
+  border-color: #b3200a;
+}
+
+.hint {
+  font-size: var(--fs-small);
+  opacity: 0.75;
+}
+
+.error {
+  font-size: var(--fs-small);
+  font-weight: 600;
+  color: #b3200a;
+}
+
+/* Empty state ------------------------------------------------------------ */
+
+.empty {
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+  max-width: 40ch;
+  margin-inline: auto;
+  padding-block: clamp(3rem, 2rem + 5vw, 6rem);
+  text-align: center;
+}
+
+.emptyTitle {
+  font-size: var(--fs-h3);
+  color: var(--c-orange);
+}
+
+/* Summary list ----------------------------------------------------------- */
+
+.summary {
+  display: grid;
+  gap: 0.625rem;
+  margin: 0;
+}
+
+.summary > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.summary dt {
+  opacity: 0.8;
+}
+
+.summary dd {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.summaryTotal {
+  padding-top: 0.75rem;
+  border-top: 2px solid var(--c-ink);
+  font-size: 1.25rem;
+}
+
+.summaryTotal dt {
+  font-weight: 600;
+  opacity: 1;
+}

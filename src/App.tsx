@@ -1,31 +1,23 @@
-import { Header } from './components/Header'
-import { Hero } from './components/Hero'
-import { About } from './components/About'
-import { Different } from './components/Different'
-import { Menu } from './components/Menu'
-import { Marquee } from './components/Marquee'
-import { Reviews } from './components/Reviews'
-import { Instagram } from './components/Instagram'
-import { Footer } from './components/Footer'
+import { Route, Routes } from 'react-router-dom'
+import { Layout } from './components/Layout'
+import { Home } from './routes/Home'
+import { MenuPage } from './routes/MenuPage'
+import { CartPage } from './routes/CartPage'
+import { CheckoutPage } from './routes/CheckoutPage'
+import { ReservationsPage } from './routes/ReservationsPage'
+import { NotFound } from './routes/NotFound'
 
-/**
- * Section order follows the Figma frame "Burger Landing" top to bottom:
- * hero -> about -> photo band -> menu -> marquee -> reviews -> social -> footer.
- */
 export default function App() {
   return (
-    <>
-      <Header />
-      <main>
-        <Hero />
-        <About />
-        <Different />
-        <Menu />
-        <Marquee />
-        <Reviews />
-        <Instagram />
-      </main>
-      <Footer />
-    </>
+    <Routes>
+      <Route element={<Layout />}>
+        <Route index element={<Home />} />
+        <Route path="menu" element={<MenuPage />} />
+        <Route path="cart" element={<CartPage />} />
+        <Route path="checkout" element={<CheckoutPage />} />
+        <Route path="reservations" element={<ReservationsPage />} />
+        <Route path="*" element={<NotFound />} />
+      </Route>
+    </Routes>
   )
 }

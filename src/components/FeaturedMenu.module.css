@@ -1,0 +1,93 @@
+/*
+ * Figma: cream plate with the white wordmark plate straddling the photo band
+ * above, heading block, then a row of dish cards.
+ */
+
+.menu {
+  position: relative;
+  background: var(--c-cream);
+  padding-block: 0 clamp(3rem, 1.5rem + 5vw, 6.25rem);
+}
+
+.inner {
+  display: grid;
+  gap: clamp(1.5rem, 0.8rem + 3vw, 3.5rem);
+}
+
+.mark {
+  position: relative;
+  z-index: 1;
+  /* Type is sized against the plate so a longer brand name can never overflow it. */
+  container-type: inline-size;
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  gap: 0.25rem;
+  justify-self: start;
+  width: clamp(7.5rem, 5.5rem + 5vw, 11.125rem);
+  aspect-ratio: 178 / 123;
+  margin-top: clamp(-5.1875rem, -3rem - 5vw, -3rem);
+  padding: clamp(0.625rem, 0.4rem + 1vw, 1rem);
+  background: var(--c-white);
+  font-family: var(--font-display);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.mark span {
+  font-size: 16.5cqw;
+}
+
+.mark span:last-child {
+  font-size: 12.9cqw;
+  letter-spacing: 0.02em;
+}
+
+.intro {
+  display: grid;
+  gap: clamp(0.75rem, 0.4rem + 1.2vw, 1rem);
+  max-width: 800px;
+  margin-top: clamp(1.5rem, 0.5rem + 4vw, 3.5rem);
+}
+
+.introBody {
+  color: var(--c-orange);
+}
+
+.grid {
+  display: grid;
+  gap: var(--grid-gap);
+  grid-template-columns: minmax(0, 1fr);
+  margin-top: clamp(0.5rem, 0.2rem + 1.5vw, 1.25rem);
+}
+
+@media (min-width: 620px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1100px) {
+  .grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.all {
+  justify-self: start;
+  display: grid;
+  place-items: center;
+  min-height: 3.375rem;
+  padding-inline: 2rem;
+  border: 1px solid var(--c-ink);
+  background: var(--c-ink);
+  color: var(--c-white);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  transition: background 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.all:hover {
+  background: transparent;
+  color: var(--c-ink);
+}

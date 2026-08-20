@@ -1,10 +1,17 @@
 import { useEffect, useState } from 'react'
-import { navLinks, socialLinks } from '../data/content'
-import { SocialIcon } from './Icons'
+import { Link, NavLink, useLocation } from 'react-router-dom'
+import { navLinks } from '../data/content'
+import { useCart } from '../cart/CartContext'
+import { Bag } from './Icons'
 import styles from './Header.module.css'
 
 export function Header() {
   const [open, setOpen] = useState(false)
+  const { count } = useCart()
+  const { pathname, hash } = useLocation()
+
+  // Close the mobile menu whenever navigation happens.
+  useEffect(() => setOpen(false), [pathname, hash])
 
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : ''
@@ -13,46 +20,70 @@ export function Header() {
     }
   }, [open])
 
+  useEffect(() => {
+    if (!open) return
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setOpen(false)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [open])
+
   return (
     <header className={styles.header}>
       <div className={`container ${styles.inner}`}>
-        <ul className={styles.social}>
-          {socialLinks.map((s) => (
-            <li key={s.name}>
-              <a href={s.href} target="_blank" rel="noreferrer noopener">
-                <SocialIcon name={s.name} className={styles.socialIcon} />
-                <span className="visuallyHidden">{s.name}</span>
-              </a>
-            </li>
-          ))}
-        </ul>
+        <Link className={styles.brand} to="/">
+          <span className={styles.brandMark}>Feranmi</span>
+          <span className={styles.brandSub}>Restaurant</span>
+        </Link>
 
         <nav className={styles.nav} aria-label="Primary">
           <ul className={styles.navList}>
             {navLinks.map((link) => (
               <li key={link.href}>
-                <a className={styles.navLink} href={link.href}>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive && !link.href.includes('#')
+                      ? `${styles.navLink} ${styles.navLinkActive}`
+                      : styles.navLink
+                  }
+                  to={link.href}
+                >
                   {link.label}
-                </a>
+                </NavLink>
               </li>
             ))}
           </ul>
         </nav>
 
-        <button
-          type="button"
-          className={styles.burger}
-          aria-expanded={open}
-          aria-controls="mobile-menu"
-          onClick={() => setOpen((v) => !v)}
-        >
-          <span className="visuallyHidden">{open ? 'Close menu' : 'Open menu'}</span>
-          <span className={styles.burgerBars} data-open={open} aria-hidden="true">
-            <i />
-            <i />
-            <i />
-          </span>
-        </button>
+        <div className={styles.actions}>
+          <Link className={styles.cart} to="/cart">
+            <Bag className={styles.cartIcon} />
+            <span className="visuallyHidden">
+              {count === 0 ? 'Cart, empty' : `Cart, ${count} items`}
+            </span>
+            {count > 0 && (
+              <span className={styles.badge} aria-hidden="true">
+                {count}
+              </span>
+            )}
+          </Link>
+
+          <button
+            type="button"
+            className={styles.burger}
+            aria-expanded={open}
+            aria-controls="mobile-menu"
+            onClick={() => setOpen((value) => !value)}
+          >
+            <span className="visuallyHidden">{open ? 'Close menu' : 'Open menu'}</span>
+            <span className={styles.burgerBars} data-open={open} aria-hidden="true">
+              <i />
+              <i />
+              <i />
+            </span>
+          </button>
+        </div>
       </div>
 
       <nav
@@ -65,11 +96,12 @@ export function Header() {
         <ul>
           {navLinks.map((link) => (
             <li key={link.href}>
-              <a href={link.href} onClick={() => setOpen(false)}>
-                {link.label}
-              </a>
+              <Link to={link.href}>{link.label}</Link>
             </li>
           ))}
+          <li>
+            <Link to="/cart">Cart{count > 0 ? ` (${count})` : ''}</Link>
+          </li>
         </ul>
       </nav>
     </header>

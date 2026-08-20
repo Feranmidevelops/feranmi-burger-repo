@@ -1,6 +1,8 @@
 import { useState, type FormEvent } from 'react'
+import { Link } from 'react-router-dom'
 import { footer, navLinks, socialLinks } from '../data/content'
-import { SocialIcon } from './Icons'
+import { addressLine, site } from '../data/site'
+import { SocialIcon, Pin } from './Icons'
 import styles from './Footer.module.css'
 
 export function Footer() {
@@ -9,7 +11,7 @@ export function Footer() {
 
   function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    // No backend in the design — acknowledge locally so the control is testable.
+    // No mailing-list backend in this build — acknowledge locally.
     setSent(true)
     setEmail('')
   }
@@ -19,11 +21,11 @@ export function Footer() {
       <div className={`container ${styles.inner}`}>
         <div className={styles.main}>
           <ul className={styles.social}>
-            {socialLinks.map((s) => (
-              <li key={s.name}>
-                <a href={s.href} target="_blank" rel="noreferrer noopener">
-                  <SocialIcon name={s.name} className={styles.socialIcon} />
-                  <span className="visuallyHidden">{s.name}</span>
+            {socialLinks.map((social) => (
+              <li key={social.name}>
+                <a href={social.href} target="_blank" rel="noreferrer noopener">
+                  <SocialIcon name={social.name} className={styles.socialIcon} />
+                  <span className="visuallyHidden">{social.name}</span>
                 </a>
               </li>
             ))}
@@ -64,16 +66,52 @@ export function Footer() {
           </ul>
         </div>
 
-        <nav className={styles.nav} aria-label="Footer">
-          <ul>
-            {navLinks.map((link) => (
-              <li key={link.href}>
-                <a href={link.href}>{link.label}</a>
-              </li>
-            ))}
-          </ul>
-        </nav>
+        <div className={styles.side}>
+          <nav className={styles.nav} aria-label="Footer">
+            <ul>
+              {navLinks.map((link) => (
+                <li key={link.href}>
+                  <Link to={link.href}>{link.label}</Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <div className={styles.contact}>
+            <h3 className={styles.contactTitle}>
+              <Pin className={styles.pin} />
+              Visit us
+            </h3>
+            <address className={styles.address}>{addressLine}</address>
+            <p>
+              <a className={styles.link} href={`tel:+${site.whatsapp}`}>
+                {site.phoneDisplay}
+              </a>
+            </p>
+            <p>
+              <a className={styles.link} href={`mailto:${site.email}`}>
+                {site.email}
+              </a>
+            </p>
+
+            <dl className={styles.hours}>
+              {site.hours.map((entry) => (
+                <div key={entry.days}>
+                  <dt>{entry.days}</dt>
+                  <dd>
+                    {entry.open} – {entry.close}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </div>
       </div>
+
+      <p className={`container ${styles.colophon}`}>
+        © {new Date().getFullYear()} {site.name} · {site.address.area}, {site.address.city},{' '}
+        {site.address.country}
+      </p>
     </footer>
   )
 }

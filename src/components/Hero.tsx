@@ -1,4 +1,6 @@
+import { Link } from 'react-router-dom'
 import { hero } from '../data/content'
+import { asset } from '../lib/asset'
 import { Burst, Smiley } from './Icons'
 import styles from './Hero.module.css'
 
@@ -15,19 +17,18 @@ export function Hero() {
             ))}
           </h1>
           <p className={`lead ${styles.body}`}>{hero.body}</p>
-          <a className={styles.cta} href="#menu">
+          <Link className={styles.cta} to="/menu">
             {hero.cta}
-          </a>
+          </Link>
         </div>
 
         <div className={styles.art}>
           <figure className={styles.figure}>
             <img
-              src={hero.image}
+              src={asset(hero.image)}
               alt={hero.imageAlt}
               width={500}
               height={500}
-              fetchPriority="high"
               decoding="async"
             />
           </figure>

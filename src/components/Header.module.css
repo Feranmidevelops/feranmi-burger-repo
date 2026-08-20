@@ -1,10 +1,13 @@
-/* Figma: social icons at (50,34), nav links at (1020,32) over the orange hero. */
+/*
+ * App bar. Orange so it reads as one plate with the hero on the home page,
+ * and as a proper toolbar on every other route.
+ */
 
 .header {
-  position: absolute;
-  inset: 0 0 auto;
-  z-index: 20;
-  padding-block: clamp(1.125rem, 0.55rem + 1.5vw, 2rem);
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: var(--c-orange);
   color: var(--c-ink);
 }
 
@@ -12,50 +15,48 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1.5rem;
+  gap: 1rem;
+  min-height: clamp(4rem, 3.4rem + 2.5vw, 5.5rem);
 }
 
-.social {
-  display: flex;
-  align-items: center;
-  gap: clamp(0.625rem, 0.4rem + 0.6vw, 0.875rem);
+.brand {
+  display: grid;
+  line-height: 0.95;
+  font-family: var(--font-display);
+  text-transform: uppercase;
 }
 
-.social a {
-  display: block;
-  transition: transform 0.2s var(--ease);
+.brandMark {
+  font-size: clamp(1.125rem, 0.95rem + 0.75vw, 1.5rem);
 }
 
-.social a:hover {
-  transform: translateY(-2px) rotate(-6deg);
-}
-
-.socialIcon {
-  width: clamp(1.25rem, 1.1rem + 0.6vw, 1.75rem);
-  height: auto;
+.brandSub {
+  font-size: clamp(0.6875rem, 0.6rem + 0.37vw, 0.875rem);
+  letter-spacing: 0.06em;
 }
 
 .nav {
   display: none;
 }
 
-@media (min-width: 900px) {
+@media (min-width: 960px) {
   .nav {
     display: block;
+    margin-inline: auto;
   }
 }
 
 .navList {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: clamp(1.25rem, 0.5rem + 2vw, 2rem);
 }
 
 .navLink {
+  position: relative;
   font-size: var(--fs-nav);
   font-weight: 600;
-  line-height: 1.5;
-  position: relative;
+  white-space: nowrap;
 }
 
 .navLink::after {
@@ -63,17 +64,61 @@
   position: absolute;
   left: 0;
   right: 100%;
-  bottom: 0.15em;
+  bottom: 0.1em;
   height: 3px;
   background: currentColor;
   transition: right 0.25s var(--ease);
 }
 
-.navLink:hover::after {
+.navLink:hover::after,
+.navLinkActive::after {
   right: 0;
 }
 
-/* Mobile trigger — Figma: 40px black circle at the top right of the 375 frame. */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.cart {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--c-ink);
+  color: var(--c-white);
+  transition: transform 0.2s var(--ease);
+}
+
+.cart:hover {
+  transform: translateY(-2px);
+}
+
+.cartIcon {
+  width: 20px;
+  height: auto;
+}
+
+.badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  display: grid;
+  place-items: center;
+  min-width: 20px;
+  height: 20px;
+  padding-inline: 5px;
+  border-radius: 10px;
+  background: var(--c-yellow);
+  color: var(--c-ink);
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
 .burger {
   display: grid;
   place-items: center;
@@ -87,7 +132,7 @@
   cursor: pointer;
 }
 
-@media (min-width: 900px) {
+@media (min-width: 960px) {
   .burger {
     display: none;
   }
@@ -121,7 +166,7 @@
 .mobileMenu {
   position: fixed;
   inset: 0;
-  z-index: 30;
+  z-index: 50;
   display: grid;
   place-items: center;
   background: var(--c-orange);
@@ -140,11 +185,11 @@
 
 .mobileMenu a {
   font-family: var(--font-display);
-  font-size: 2rem;
+  font-size: clamp(1.75rem, 1.4rem + 1.5vw, 2.25rem);
   text-transform: uppercase;
 }
 
-@media (min-width: 900px) {
+@media (min-width: 960px) {
   .mobileMenu {
     display: none;
   }

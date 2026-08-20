@@ -3,7 +3,7 @@
 .hero {
   position: relative;
   background: var(--c-orange);
-  padding-block: clamp(6.5rem, 4rem + 8vw, 11.25rem) clamp(2.5rem, 1rem + 4vw, 4.5rem);
+  padding-block: clamp(2.5rem, 1.5rem + 4vw, 5rem) clamp(2.5rem, 1rem + 4vw, 4.5rem);
   overflow: hidden;
 }
 
@@ -105,7 +105,7 @@
 
 @media (min-width: 900px) {
   .hero {
-    min-height: 840px;
+    min-height: 760px;
     display: grid;
     align-items: center;
   }

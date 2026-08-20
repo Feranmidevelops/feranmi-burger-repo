@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { reviewsSection, type Review } from '../data/content'
 import { useMediaQuery } from '../hooks/useMediaQuery'
+import { asset } from '../lib/asset'
 import styles from './Reviews.module.css'
 
 const MOBILE_PREVIEW_COUNT = 3
@@ -10,7 +11,7 @@ function Card({ review }: { review: Review }) {
     <figure className={styles.card}>
       <img
         className={styles.avatar}
-        src={review.avatar}
+        src={asset(review.avatar)}
         alt=""
         width={48}
         height={48}

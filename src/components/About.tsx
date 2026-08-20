@@ -1,4 +1,5 @@
 import { about } from '../data/content'
+import { asset } from '../lib/asset'
 import styles from './About.module.css'
 
 export function About() {
@@ -10,7 +11,7 @@ export function About() {
         <figure className={styles.portrait}>
           <div className={styles.frame}>
             <img
-              src={about.portrait}
+              src={asset(about.portrait)}
               alt={about.portraitAlt}
               width={640}
               height={426}
@@ -23,7 +24,7 @@ export function About() {
         <div className={styles.feature}>
           <div className={styles.featureImage}>
             <img
-              src={about.featureImage}
+              src={asset(about.featureImage)}
               alt={about.featureImageAlt}
               width={640}
               height={640}

@@ -33,15 +33,15 @@ export interface InstagramTile {
 }
 
 export const navLinks: readonly NavLink[] = [
-  { label: 'About', href: '#about' },
-  { label: 'Menu', href: '#menu' },
-  { label: 'reviews', href: '#reviews' },
-  { label: 'Social', href: '#social' },
+  { label: 'Menu', href: '/menu' },
+  { label: 'Reserve', href: '/reservations' },
+  { label: 'About', href: '/#about' },
+  { label: 'Social', href: '/#social' },
 ]
 
 export const hero = {
-  headingLines: ['New York’s', 'Favorite', 'Burger'],
-  body: 'In a world so painfully serious, yet so ridiculous, you knew it was only a matter of time before plant-based steak became a thing.',
+  headingLines: ['Lagos’', 'Favourite', 'Burger'],
+  body: 'Smashed patties, yaji on everything, and dodo where it belongs. Cooked on Admiralty Way since 1985, delivered across the island in under an hour.',
   cta: 'Browse menu',
   image: '/img/burger-hero.jpg',
   imageAlt: 'A stacked burger with melted cheese on a pink background',
@@ -49,15 +49,15 @@ export const hero = {
 
 export const about = {
   heading:
-    'Hi, We’re Feranmi Restaurant, a collective of creators who Love burger and good mood.',
+    'Hi, We’re Feranmi Restaurant, a Lagos kitchen that takes burgers far too seriously.',
   portrait: '/img/founder-portrait.jpg',
   portraitAlt: 'Feranmi, the founder, standing behind the counter of the original shop',
-  caption: 'This is Feranmi. It all started 40 years ago.',
+  caption: 'This is Feranmi. It all started on Admiralty Way, 40 years ago.',
   featureImage: '/img/food-for-everyone.jpg',
   featureImageAlt: 'A burger being held in both hands',
   featureHeadingLines: ['Food is for', 'everyone.'],
   featureBody:
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+    'We grind beef every morning, bake the buns on site, and roast the tatashe for our obe ata glaze in-house. Nothing arrives frozen and nothing sits under a heat lamp. If it is on the menu, someone cooked it after you ordered it.',
 } as const
 
 export const different = {
@@ -69,7 +69,7 @@ export const different = {
 
 export const menuSection = {
   heading: 'our burgers',
-  body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+  body: 'Ten things, done properly. Beef ground this morning, chicken brined overnight, and a Chapman built the way Lagos actually drinks it.',
   items: [
     {
       id: 'shrimp-yo',
@@ -109,20 +109,20 @@ export const marqueeText = 'Life is to short to eat just salads'
 const reviewColumns: Review[][] = [
   [
     {
-      id: 'uideli-1',
-      author: 'UIDELI.COM',
-      body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+      id: 'uideli',
+      author: 'Tolu A.',
+      body: 'Ordered on WhatsApp at 8pm on a Friday, food was at my door in Lekki Phase 1 in twenty-five minutes. Still hot. Still crispy.',
       avatar: '/img/avatar-uideli.jpg',
     },
     {
       id: 'jessica-1',
-      author: 'Jessica from Eater.com',
-      body: 'Accusantium doloremque laudantium, totam rem aperiam.',
+      author: 'Chidera from EatLagos',
+      body: 'The Suya Smash is the best thing to happen to a burger in this city.',
       avatar: '/img/avatar-jessica.jpg',
     },
     {
       id: 'welovefood-1',
-      author: 'we love food',
+      author: 'we love food ng',
       body: 'Just in love with these burgers!',
       avatar: '/img/avatar-welovefood.jpg',
     },
@@ -130,40 +130,40 @@ const reviewColumns: Review[][] = [
   [
     {
       id: 'andreea',
-      author: 'Andreea @eattwice',
-      body: 'Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+      author: 'Amaka @eattwice',
+      body: 'I came for the Dodo Stack and stayed for the Yaji Fries, which I did not order and somehow finished anyway. The plantain is properly ripe, not that half-green thing everywhere else does. Four visits in three weeks.',
       avatar: '/img/avatar-andreea.jpg',
     },
     {
       id: 'maria',
       author: 'just maria',
-      body: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+      body: 'Booked a table for six for my sister’s birthday. They had the Chapmans poured before we sat down.',
       avatar: '/img/avatar-maria.jpg',
     },
     {
       id: 'jessica-2',
-      author: 'Jessica from Eater.com',
-      body: 'Accusantium doloremque laudantium, totam rem aperiam.',
+      author: 'Ifeanyi O.',
+      body: 'Obe Ata Chicken is genuinely spicy. Respect.',
       avatar: '/img/avatar-jessica.jpg',
     },
   ],
   [
     {
       id: 'mathew',
-      author: 'Mathew eats all',
-      body: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.\n\nJust the best in town. Try it!',
+      author: 'Seyi eats all',
+      body: 'I have eaten my way through most of the burger places between VI and Ikeja, and I keep coming back to this one. It is the bun. They bake it here and you can tell.\n\nJust the best in town. Try it!',
       avatar: '/img/avatar-mathew.jpg',
     },
     {
       id: 'welovefood-2',
-      author: 'we love food',
-      body: 'Just in love with these burgers!',
+      author: 'Bukky @lagosplates',
+      body: 'Pickup order was ready exactly when they said. Rare.',
       avatar: '/img/avatar-welovefood.jpg',
     },
     {
       id: 'uideli-2',
-      author: 'UIDELI.COM',
-      body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+      author: 'Emeka N.',
+      body: 'Took a client here to close a deal. The Double Trouble closed it for me.',
       avatar: '/img/avatar-uideli.jpg',
     },
   ],
@@ -171,7 +171,7 @@ const reviewColumns: Review[][] = [
 
 export const reviewsSection = {
   heading: 'some reviews',
-  body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+  body: 'What people say after the first bite, and again after the third order.',
   columns: reviewColumns,
   loadMore: 'Load more',
 } as const

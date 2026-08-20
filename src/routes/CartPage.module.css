@@ -1,0 +1,189 @@
+.cart {
+  background: var(--c-cream);
+  padding-block: clamp(2rem, 1rem + 4vw, 3.5rem) clamp(3rem, 1.5rem + 5vw, 6rem);
+}
+
+.layout {
+  display: grid;
+  gap: clamp(1.5rem, 0.8rem + 3vw, 2.5rem);
+  align-items: start;
+}
+
+@media (min-width: 960px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr) 22rem;
+  }
+}
+
+.lines {
+  display: grid;
+  gap: var(--grid-gap);
+}
+
+.line {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--c-white);
+}
+
+.thumb {
+  width: clamp(4rem, 3rem + 4vw, 6rem);
+  height: clamp(4rem, 3rem + 4vw, 6rem);
+  object-fit: cover;
+  background: var(--c-placeholder);
+}
+
+.lineBody {
+  display: grid;
+  gap: 0.5rem;
+  align-content: start;
+}
+
+.lineHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.lineName {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.lineTotal {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.unit {
+  font-size: var(--fs-small);
+  opacity: 0.7;
+}
+
+.lineControls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.remove {
+  border: 0;
+  padding: 0;
+  background: none;
+  color: inherit;
+  font-size: var(--fs-small);
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.note {
+  display: grid;
+  gap: 0.25rem;
+  margin-top: 0.25rem;
+}
+
+.note span {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.note input {
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid rgb(0 0 0 / 0.25);
+  border-radius: 0;
+  background: var(--c-cream);
+  font-size: 0.9375rem;
+}
+
+.clear {
+  margin-top: 1rem;
+  border: 0;
+  padding: 0;
+  background: none;
+  color: inherit;
+  font-size: var(--fs-small);
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* Summary panel ---------------------------------------------------------- */
+
+.aside {
+  display: grid;
+  gap: 1rem;
+  padding: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+  background: var(--c-white);
+}
+
+@media (min-width: 960px) {
+  .aside {
+    position: sticky;
+    top: calc(clamp(4rem, 3.4rem + 2.5vw, 5.5rem) + 1rem);
+  }
+}
+
+.asideTitle {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.asideNote {
+  font-size: var(--fs-small);
+  opacity: 0.7;
+}
+
+.warning {
+  padding: 0.75rem;
+  background: var(--c-yellow);
+  font-size: var(--fs-small);
+  font-weight: 600;
+}
+
+.primary,
+.secondary {
+  display: grid;
+  place-items: center;
+  min-height: 3.375rem;
+  padding-inline: 1.5rem;
+  border: 1px solid var(--c-ink);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  transition: background 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.primary {
+  background: var(--c-ink);
+  color: var(--c-white);
+}
+
+.primary:hover {
+  background: var(--c-orange);
+  color: var(--c-ink);
+}
+
+.secondary {
+  background: transparent;
+  color: var(--c-ink);
+}
+
+.secondary:hover {
+  background: var(--c-ink);
+  color: var(--c-white);
+}
