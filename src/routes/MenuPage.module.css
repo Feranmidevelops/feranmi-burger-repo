@@ -14,8 +14,23 @@
   }
 }
 
+.search {
+  position: relative;
+}
+
+.searchIcon {
+  position: absolute;
+  left: var(--control-pad-x);
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.125rem;
+  color: var(--c-orange);
+  pointer-events: none;
+}
+
 .search input {
   width: 100%;
+  padding-left: calc(var(--control-pad-x) * 2 + 1.125rem);
   min-height: var(--control-min-h);
   padding: var(--control-pad-y) var(--control-pad-x);
   border: var(--control-border) solid var(--c-ink);

@@ -52,8 +52,7 @@
 }
 
 .sparkle {
-  width: clamp(1.25rem, 1rem + 1vw, 2rem);
-  height: auto;
+  font-size: clamp(1.25rem, 1rem + 1vw, 2rem);
 }
 
 @keyframes scroll {

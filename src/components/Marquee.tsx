@@ -1,5 +1,5 @@
 import { marqueeText } from '../data/content'
-import { Sparkle } from './Icons'
+import { Sparkle } from '@phosphor-icons/react'
 import styles from './Marquee.module.css'
 
 const REPEATS = 8
@@ -11,7 +11,7 @@ function Track({ reverse }: { reverse?: boolean }) {
         {Array.from({ length: REPEATS }, (_, i) => (
           <span key={i} className={styles.item}>
             {marqueeText}
-            <Sparkle className={styles.sparkle} />
+            <Sparkle className={styles.sparkle} weight="fill" />
           </span>
         ))}
       </div>

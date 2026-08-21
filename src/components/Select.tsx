@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from 'react'
+import { CaretDown, Check } from '@phosphor-icons/react'
+import { ICON } from './Icons'
 import styles from './Select.module.css'
 
 export interface Option {
@@ -177,18 +179,7 @@ export function Select({
         onKeyDown={onKeyDown}
       >
         <span className={styles.value}>{selected?.label ?? ''}</span>
-        <svg
-          className={styles.chevron}
-          viewBox="0 0 16 16"
-          aria-hidden="true"
-          focusable="false"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2.25"
-          strokeLinecap="square"
-        >
-          <path d="m3 6 5 5 5-5" />
-        </svg>
+        <CaretDown className={styles.chevron} weight={ICON.strong} />
       </button>
 
       {open && (
@@ -212,6 +203,7 @@ export function Select({
               onMouseEnter={() => setActiveIndex(index)}
               onClick={() => commit(index)}
             >
+              <Check className={styles.tick} weight={ICON.strong} aria-hidden />
               <span className={styles.optionLabel}>{option.label}</span>
               {option.meta && <span className={styles.optionMeta}>{option.meta}</span>}
             </li>

@@ -92,8 +92,10 @@
 
 .sealFace {
   position: absolute;
-  width: 46%;
-  height: auto;
+  /* Sized against the seal's box, not its font-size — Phosphor's 1em default
+     would otherwise resolve against inherited body text. */
+  width: 48%;
+  height: 48%;
   color: var(--c-ink);
 }
 

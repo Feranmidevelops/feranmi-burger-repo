@@ -85,6 +85,9 @@
 }
 
 .choiceTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.45em;
   font-family: var(--font-display);
   font-size: 1.0625rem;
   text-transform: uppercase;

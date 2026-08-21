@@ -58,6 +58,22 @@ ul {
   outline-offset: 3px;
 }
 
+/*
+ * Phosphor icons render as inline <svg> sized in em (see the IconContext in
+ * main.tsx), so they scale with whatever text they sit beside. `.withIcon` is
+ * the shared pairing: centred on the text's optical middle, never squashed by
+ * a flex parent, and spaced by a fraction of the current font size.
+ */
+.withIcon {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+}
+
+.withIcon > svg {
+  flex: none;
+}
+
 /* Shared primitives ------------------------------------------------------ */
 
 .container {

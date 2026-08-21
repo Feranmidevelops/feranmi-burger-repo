@@ -11,6 +11,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@phosphor-icons/react": "^2.1.10",
     "jspdf": "^2.5.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

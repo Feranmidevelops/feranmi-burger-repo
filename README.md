@@ -82,6 +82,13 @@ Decisions worth flagging:
 - **One set of control metrics.** `--control-min-h`, `--control-pad-x` and
   `--control-pad-y` in `tokens.css` are shared by every input, textarea and
   select, so nothing drifts out of alignment.
+- **Icon weight follows text weight.** Icons are Phosphor. An icon's stroke
+  matches the weight of the text it sits beside — `regular` next to Oswald 400,
+  `bold` next to Oswald 600 — expressed as `ICON.body` / `ICON.strong` in
+  [`Icons.tsx`](src/components/Icons.tsx) rather than picked per call site.
+  Sizing is `1em` via a root `IconContext`, so a glyph tracks the font-size of
+  its line instead of carrying its own scale. Brand marks (WhatsApp, the marquee
+  sparkle) use `fill`, matching how the Figma file drew them.
 
 ## Deployment
 

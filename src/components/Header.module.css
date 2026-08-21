@@ -98,8 +98,7 @@
 }
 
 .cartIcon {
-  width: 20px;
-  height: auto;
+  font-size: 1.25rem;
 }
 
 .badge {
@@ -138,29 +137,8 @@
   }
 }
 
-.burgerBars {
-  display: grid;
-  gap: 3px;
-  width: 18px;
-}
-
-.burgerBars i {
-  display: block;
-  height: 2px;
-  background: currentColor;
-  transition: transform 0.25s var(--ease), opacity 0.2s var(--ease);
-}
-
-.burgerBars[data-open='true'] i:nth-child(1) {
-  transform: translateY(5px) rotate(45deg);
-}
-
-.burgerBars[data-open='true'] i:nth-child(2) {
-  opacity: 0;
-}
-
-.burgerBars[data-open='true'] i:nth-child(3) {
-  transform: translateY(-5px) rotate(-45deg);
+.burgerIcon {
+  font-size: 1.375rem;
 }
 
 .mobileMenu {

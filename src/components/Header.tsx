@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { navLinks } from '../data/content'
 import { useCart } from '../cart/CartContext'
-import { Bag } from './Icons'
+import { Hamburger, ShoppingBag, X } from '@phosphor-icons/react'
+import { ICON } from './Icons'
 import styles from './Header.module.css'
 
 export function Header() {
@@ -58,7 +59,7 @@ export function Header() {
 
         <div className={styles.actions}>
           <Link className={styles.cart} to="/cart">
-            <Bag className={styles.cartIcon} />
+            <ShoppingBag className={styles.cartIcon} weight={ICON.strong} />
             <span className="visuallyHidden">
               {count === 0 ? 'Cart, empty' : `Cart, ${count} items`}
             </span>
@@ -77,11 +78,11 @@ export function Header() {
             onClick={() => setOpen((value) => !value)}
           >
             <span className="visuallyHidden">{open ? 'Close menu' : 'Open menu'}</span>
-            <span className={styles.burgerBars} data-open={open} aria-hidden="true">
-              <i />
-              <i />
-              <i />
-            </span>
+            {open ? (
+              <X className={styles.burgerIcon} weight={ICON.strong} />
+            ) : (
+              <Hamburger className={styles.burgerIcon} weight={ICON.strong} />
+            )}
           </button>
         </div>
       </div>

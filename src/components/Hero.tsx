@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom'
 import { hero } from '../data/content'
 import { asset } from '../lib/asset'
-import { Burst, Smiley } from './Icons'
+import { Smiley } from '@phosphor-icons/react'
+import { Burst, ICON } from './Icons'
 import styles from './Hero.module.css'
 
 export function Hero() {
@@ -34,7 +35,7 @@ export function Hero() {
           </figure>
           <span className={styles.seal} aria-hidden="true">
             <Burst className={styles.sealBurst} />
-            <Smiley className={styles.sealFace} />
+            <Smiley className={styles.sealFace} weight={ICON.strong} />
           </span>
         </div>
       </div>

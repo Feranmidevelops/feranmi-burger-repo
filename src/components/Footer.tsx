@@ -2,7 +2,8 @@ import { useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { footer, navLinks, socialLinks } from '../data/content'
 import { addressLine, site } from '../data/site'
-import { SocialIcon, Pin } from './Icons'
+import { Clock, EnvelopeSimple, MapPin, Phone } from '@phosphor-icons/react'
+import { ICON, SocialIcon } from './Icons'
 import styles from './Footer.module.css'
 
 export function Footer() {
@@ -79,21 +80,27 @@ export function Footer() {
 
           <div className={styles.contact}>
             <h3 className={styles.contactTitle}>
-              <Pin className={styles.pin} />
+              <MapPin weight={ICON.strong} aria-hidden />
               Visit us
             </h3>
             <address className={styles.address}>{addressLine}</address>
-            <p>
+            <p className={styles.contactRow}>
+              <Phone weight={ICON.body} aria-hidden />
               <a className={styles.link} href={`tel:+${site.whatsapp}`}>
                 {site.phoneDisplay}
               </a>
             </p>
-            <p>
+            <p className={styles.contactRow}>
+              <EnvelopeSimple weight={ICON.body} aria-hidden />
               <a className={styles.link} href={`mailto:${site.email}`}>
                 {site.email}
               </a>
             </p>
 
+            <h3 className={styles.contactTitle}>
+              <Clock weight={ICON.strong} aria-hidden />
+              Hours
+            </h3>
             <dl className={styles.hours}>
               {site.hours.map((entry) => (
                 <div key={entry.days}>

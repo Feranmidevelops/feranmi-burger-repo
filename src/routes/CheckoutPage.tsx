@@ -14,7 +14,8 @@ import {
 } from '../lib/validation'
 import { EmptyState, Field, PageHeader, Summary } from '../components/ui'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
-import { Check } from '../components/Icons'
+import { Check, Storefront, Truck } from '@phosphor-icons/react'
+import { ICON } from '../components/Icons'
 import { InvoiceActions } from '../components/InvoiceActions'
 import { Select } from '../components/Select'
 import styles from './CheckoutPage.module.css'
@@ -118,7 +119,7 @@ export function CheckoutPage() {
           <div className="container">
             <div className={styles.confirm}>
               <span className={styles.tick} aria-hidden="true">
-                <Check className={styles.tickIcon} />
+                <Check className={styles.tickIcon} weight={ICON.strong} />
               </span>
               <h2 className={styles.confirmTitle}>Reference {placed.reference}</h2>
               <p>
@@ -204,6 +205,11 @@ export function CheckoutPage() {
                         onChange={() => set('fulfilment', option)}
                       />
                       <span className={styles.choiceTitle}>
+                        {option === 'delivery' ? (
+                          <Truck weight={ICON.strong} aria-hidden />
+                        ) : (
+                          <Storefront weight={ICON.strong} aria-hidden />
+                        )}
                         {option === 'delivery' ? 'Delivery' : 'Pickup'}
                       </span>
                       <span className={styles.choiceBody}>

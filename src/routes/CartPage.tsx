@@ -1,4 +1,6 @@
 import { Link } from 'react-router-dom'
+import { ArrowRight, NotePencil, Trash } from '@phosphor-icons/react'
+import { ICON } from '../components/Icons'
 import { useCart } from '../cart/CartContext'
 import { formatNaira } from '../lib/money'
 import { asset } from '../lib/asset'
@@ -64,13 +66,17 @@ export function CartPage() {
                             className={styles.remove}
                             onClick={() => remove(line.id)}
                           >
+                            <Trash weight={ICON.strong} aria-hidden />
                             Remove
                             <span className="visuallyHidden"> {line.item.name}</span>
                           </button>
                         </div>
 
                         <label className={styles.note}>
-                          <span>Note for the kitchen</span>
+                          <span>
+                            <NotePencil weight={ICON.strong} aria-hidden />
+                            Note for the kitchen
+                          </span>
                           <input
                             type="text"
                             maxLength={140}
@@ -108,6 +114,7 @@ export function CartPage() {
 
                 <Link className={styles.primary} to="/checkout">
                   Continue to checkout
+                  <ArrowRight weight={ICON.strong} aria-hidden />
                 </Link>
                 <Link className={styles.secondary} to="/menu">
                   Add something else

@@ -3,8 +3,17 @@ import { badgeLabels, dietaryLabels, type MenuItem } from '../data/menu'
 import { useCart } from '../cart/CartContext'
 import { formatNaira } from '../lib/money'
 import { asset } from '../lib/asset'
-import { Burst, Check } from './Icons'
+import { Check, Clock, Fire, Fish, Leaf, Plus, Warning } from '@phosphor-icons/react'
+import { Burst, ICON } from './Icons'
+import type { DietaryTag } from '../data/menu'
 import styles from './MenuCard.module.css'
+
+const dietaryIcons: Record<DietaryTag, typeof Leaf> = {
+  vegetarian: Leaf,
+  spicy: Fire,
+  'contains-nuts': Warning,
+  seafood: Fish,
+}
 
 export function MenuCard({ item }: { item: MenuItem }) {
   const { add } = useCart()
@@ -36,13 +45,22 @@ export function MenuCard({ item }: { item: MenuItem }) {
 
         {item.dietary && item.dietary.length > 0 && (
           <ul className={styles.tags}>
-            {item.dietary.map((tag) => (
-              <li key={tag}>{dietaryLabels[tag]}</li>
-            ))}
+            {item.dietary.map((tag) => {
+              const Glyph = dietaryIcons[tag]
+              return (
+                <li key={tag}>
+                  <Glyph weight={ICON.strong} aria-hidden />
+                  {dietaryLabels[tag]}
+                </li>
+              )
+            })}
           </ul>
         )}
 
-        <p className={styles.meta}>Ready in about {item.prepMinutes} min</p>
+        <p className={styles.meta}>
+          <Clock weight={ICON.strong} aria-hidden />
+          Ready in about {item.prepMinutes} min
+        </p>
 
         <div className={styles.foot}>
           <span className={styles.price}>{formatNaira(item.price)}</span>
@@ -57,11 +75,14 @@ export function MenuCard({ item }: { item: MenuItem }) {
           >
             {justAdded ? (
               <>
-                <Check className={styles.addIcon} />
+                <Check className={styles.addIcon} weight={ICON.strong} />
                 Added
               </>
             ) : (
-              'Add to cart'
+              <>
+                <Plus className={styles.addIcon} weight={ICON.strong} />
+                Add to cart
+              </>
             )}
             <span className="visuallyHidden"> — {item.name}</span>
           </button>

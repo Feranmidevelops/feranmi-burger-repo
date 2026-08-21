@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom'
 import { different } from '../data/content'
 import { asset } from '../lib/asset'
-import { ArrowDown } from './Icons'
+import { ArrowDown } from '@phosphor-icons/react'
+import { ICON } from './Icons'
 import styles from './Different.module.css'
 
 export function Different() {
@@ -18,7 +19,7 @@ export function Different() {
       <Link className={styles.action} to="/menu">
         <span className={`display ${styles.heading}`}>{different.heading}</span>
         <span className={styles.dot} aria-hidden="true">
-          <ArrowDown className={styles.arrow} />
+          <ArrowDown className={styles.arrow} weight={ICON.strong} />
         </span>
       </Link>
     </section>

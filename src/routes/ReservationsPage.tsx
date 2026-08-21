@@ -11,7 +11,8 @@ import { futureDate, isClean, minLength, nigerianPhone, type Errors } from '../l
 import { Field, PageHeader } from '../components/ui'
 import { Select } from '../components/Select'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
-import { Check, Pin, WhatsApp } from '../components/Icons'
+import { Check, Clock, MapPin, Phone, WhatsappLogo } from '@phosphor-icons/react'
+import { ICON } from '../components/Icons'
 import { asset } from '../lib/asset'
 import styles from './ReservationsPage.module.css'
 
@@ -118,7 +119,7 @@ export function ReservationsPage() {
           {booking ? (
             <div className={styles.confirm}>
               <span className={styles.tick} aria-hidden="true">
-                <Check className={styles.tickIcon} />
+                <Check className={styles.tickIcon} weight={ICON.strong} />
               </span>
               <h2 className={styles.confirmTitle}>Table held — {booking.reference}</h2>
               <p>
@@ -135,7 +136,7 @@ export function ReservationsPage() {
                 target="_blank"
                 rel="noreferrer noopener"
               >
-                <WhatsApp className={styles.whatsappIcon} />
+                <WhatsappLogo className={styles.whatsappIcon} weight="fill" />
                 Confirm on WhatsApp
               </a>
               <button
@@ -270,15 +271,19 @@ export function ReservationsPage() {
             />
             <div className={styles.asideBody}>
               <h2 className={styles.asideTitle}>
-                <Pin className={styles.pin} />
+                <MapPin className={styles.pin} weight={ICON.strong} aria-hidden />
                 Find us
               </h2>
               <address className={styles.address}>{addressLine}</address>
-              <p className={styles.small}>
+              <p className={`${styles.small} ${styles.contactRow}`}>
+                <Phone weight={ICON.body} aria-hidden />
                 <a href={`tel:+${site.whatsapp}`}>{site.phoneDisplay}</a>
               </p>
 
-              <h3 className={styles.hoursTitle}>Opening hours</h3>
+              <h3 className={styles.hoursTitle}>
+                <Clock weight={ICON.strong} aria-hidden />
+                Opening hours
+              </h3>
               <dl className={styles.hours}>
                 {site.hours.map((entry) => (
                   <div key={entry.days}>

@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react'
 import { buildInvoice, invoiceFilename } from '../lib/invoice'
 import { orderMessage, whatsappLink, type OrderDetails } from '../lib/whatsapp'
 import { site } from '../data/site'
-import { Download, Share, WhatsApp } from './Icons'
+import { DownloadSimple, ShareNetwork, WhatsappLogo } from '@phosphor-icons/react'
+import { ICON } from './Icons'
 import styles from './InvoiceActions.module.css'
 
 type Status = 'idle' | 'building' | 'shared' | 'error'
@@ -77,7 +78,7 @@ export function InvoiceActions({ order }: { order: OrderDetails }) {
         target="_blank"
         rel="noreferrer noopener"
       >
-        <WhatsApp className={styles.icon} />
+        <WhatsappLogo className={styles.icon} weight="fill" />
         Send order on WhatsApp
       </a>
 
@@ -88,7 +89,7 @@ export function InvoiceActions({ order }: { order: OrderDetails }) {
           onClick={download}
           disabled={status === 'building'}
         >
-          <Download className={styles.icon} />
+          <DownloadSimple className={styles.icon} weight={ICON.strong} />
           {status === 'building' ? 'Preparing…' : 'Download invoice'}
         </button>
 
@@ -99,7 +100,7 @@ export function InvoiceActions({ order }: { order: OrderDetails }) {
             onClick={share}
             disabled={status === 'building'}
           >
-            <Share className={styles.icon} />
+            <ShareNetwork className={styles.icon} weight={ICON.strong} />
             Share invoice
           </button>
         )}

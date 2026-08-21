@@ -2,7 +2,9 @@ import { useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { categories, menu, type Category } from '../data/menu'
 import { MenuCard } from '../components/MenuCard'
+import { MagnifyingGlass } from '@phosphor-icons/react'
 import { Select } from '../components/Select'
+import { ICON } from '../components/Icons'
 import { PageHeader, EmptyState } from '../components/ui'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
 import styles from './MenuPage.module.css'
@@ -74,6 +76,7 @@ export function MenuPage() {
               <label className="visuallyHidden" htmlFor="menu-search">
                 Search the menu
               </label>
+              <MagnifyingGlass className={styles.searchIcon} weight={ICON.strong} aria-hidden />
               <input
                 id="menu-search"
                 type="search"
