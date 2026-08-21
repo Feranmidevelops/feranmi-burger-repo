@@ -18,7 +18,13 @@ body {
   font-size: var(--fs-body);
   font-weight: 400;
   line-height: 1.5;
-  overflow-x: hidden;
+  /*
+   * `clip`, never `hidden`. `overflow-x: hidden` forces overflow-y to compute
+   * to `auto`, turning body into a scroll container — which starves
+   * loading="lazy", because lazy images are then measured against the body
+   * scrollport rather than the viewport and never come into range.
+   */
+  overflow-x: clip;
 }
 
 img {

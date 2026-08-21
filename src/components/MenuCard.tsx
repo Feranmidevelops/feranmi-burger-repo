@@ -15,7 +15,12 @@ const dietaryIcons: Record<DietaryTag, typeof Leaf> = {
   seafood: Fish,
 }
 
-export function MenuCard({ item }: { item: MenuItem }) {
+/**
+ * `priority` marks a card that is visible on arrival. Those images load eagerly:
+ * lazy-loading anything in the first viewport delays the largest paint, and it
+ * leaves the page looking broken if the lazy heuristic is starved for any reason.
+ */
+export function MenuCard({ item, priority = false }: { item: MenuItem; priority?: boolean }) {
   const { add } = useCart()
   const [justAdded, setJustAdded] = useState(false)
 
@@ -29,7 +34,14 @@ export function MenuCard({ item }: { item: MenuItem }) {
   return (
     <article className={styles.card}>
       <div className={styles.media}>
-        <img src={asset(item.image)} alt={item.alt} width={323} height={323} loading="lazy" />
+        <img
+          src={asset(item.image)}
+          alt={item.alt}
+          width={323}
+          height={323}
+          loading={priority ? 'eager' : 'lazy'}
+          decoding="async"
+        />
       </div>
 
       {item.badge && (

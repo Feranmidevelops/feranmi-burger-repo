@@ -141,9 +141,10 @@ export function MenuPage() {
             />
           ) : (
             <ul className={styles.grid}>
-              {results.map((item) => (
+              {results.map((item, index) => (
                 <li key={item.id}>
-                  <MenuCard item={item} />
+                  {/* The first row is above the fold on every breakpoint. */}
+                  <MenuCard item={item} priority={index < 4} />
                 </li>
               ))}
             </ul>
