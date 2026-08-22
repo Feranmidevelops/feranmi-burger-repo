@@ -4,6 +4,7 @@ import { useCart } from '../cart/CartContext'
 import { DELIVERY_MINIMUM, deliveryZones, site, addressLine } from '../data/site'
 import { formatNaira } from '../lib/money'
 import { reference } from '../lib/id'
+import { recordOrder } from '../cart/orders'
 import { type OrderDetails } from '../lib/whatsapp'
 import {
   isClean,
@@ -107,6 +108,10 @@ export function CheckoutPage() {
       ...(form.fulfilment === 'delivery' && zone ? { zone, address: form.address.trim() } : {}),
       ...(form.notes.trim() ? { notes: form.notes.trim() } : {}),
     }
+
+    // Recorded before the cart is emptied, so "order again" survives even if
+    // the customer never actually sends the WhatsApp message.
+    recordOrder(order, new Date())
 
     setPlaced(order)
     clear()

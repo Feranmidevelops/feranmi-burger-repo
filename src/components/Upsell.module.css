@@ -1,0 +1,106 @@
+.wrap {
+  margin-top: 2rem;
+  padding: clamp(1rem, 0.75rem + 1.5vw, 1.5rem);
+  background: var(--c-yellow);
+  border: 2px solid var(--c-ink);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-lead);
+  text-transform: uppercase;
+}
+
+.sub {
+  margin: 0.35rem 0 0;
+  font-size: var(--fs-small);
+  /* The group names are lower-cased in the markup; this reads as a sentence. */
+  text-transform: none;
+}
+
+.sub::first-letter {
+  text-transform: uppercase;
+}
+
+.list {
+  display: grid;
+  gap: 0.5rem;
+  margin: 1.25rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem;
+  background: var(--c-white);
+  border: 1px solid var(--c-ink);
+}
+
+.link {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.thumb {
+  flex: none;
+  width: 3.25rem;
+  height: 3.25rem;
+  object-fit: cover;
+  background: var(--c-placeholder);
+}
+
+.itemBody {
+  display: grid;
+  min-width: 0;
+}
+
+.name {
+  font-weight: 600;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.link:hover .name {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.price {
+  font-size: var(--fs-small);
+  opacity: 0.75;
+}
+
+.add {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 2px solid var(--c-ink);
+  background: var(--c-orange);
+  color: var(--c-ink);
+  font-size: 1.125rem;
+  cursor: pointer;
+  transition:
+    background 0.2s var(--ease),
+    color 0.2s var(--ease);
+}
+
+.add:hover {
+  background: var(--c-ink);
+  color: var(--c-white);
+}
+
+.add[data-added='true'] {
+  background: var(--c-yellow);
+  color: var(--c-ink);
+}

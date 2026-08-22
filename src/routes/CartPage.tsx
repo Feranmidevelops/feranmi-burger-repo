@@ -6,6 +6,8 @@ import { formatNaira } from '../lib/money'
 import { asset } from '../lib/asset'
 import { DELIVERY_MINIMUM } from '../data/site'
 import { EmptyState, PageHeader, QuantityStepper, Summary } from '../components/ui'
+import { RecentOrders } from '../components/RecentOrders'
+import { Upsell } from '../components/Upsell'
 import styles from './CartPage.module.css'
 
 export function CartPage() {
@@ -20,15 +22,17 @@ export function CartPage() {
       <section className={styles.cart}>
         <div className="container">
           {count === 0 ? (
-            <EmptyState
-              title="Nothing here yet"
-              body="Your cart is empty. The Suya Smash is a good place to start."
-              action={
-                <Link className={styles.primary} to="/menu">
-                  Browse the menu
-                </Link>
-              }
-            />
+            <>
+              <EmptyState
+                title="Nothing here yet"
+                body="Your cart is empty. The Suya Smash is a good place to start."
+                action={
+                  <Link className={styles.primary} to="/menu">
+                    Browse the menu
+                  </Link>
+                }
+              />
+            </>
           ) : (
             <div className={styles.layout}>
               <div>
@@ -117,9 +121,18 @@ export function CartPage() {
                 <Link className={styles.secondary} to="/menu">
                   Add something else
                 </Link>
+
+                <Upsell />
               </aside>
             </div>
           )}
+
+          {/*
+            One instance, outside the empty/full branch. Mounting a separate copy
+            in each would unmount and remount it the moment a re-order fills the
+            cart — losing the confirmation the tap just triggered.
+          */}
+          <RecentOrders heading={count === 0 ? 'Or order it again' : 'Order it again'} />
         </div>
       </section>
     </>
