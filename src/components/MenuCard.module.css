@@ -150,3 +150,31 @@
 .addIcon {
   font-size: 1rem;
 }
+
+/*
+ * The dish name is the link out of the card — the card itself cannot be one,
+ * because it contains the add-to-cart button.
+ */
+.nameLink {
+  color: inherit;
+  text-decoration: none;
+}
+
+.nameLink:hover,
+.nameLink:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+/* Widen the hit area to the whole card without swallowing the button. */
+.nameLink::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.foot {
+  position: relative;
+  z-index: 1;
+}

@@ -15,10 +15,16 @@
 
 import type { Plugin } from 'vite'
 import { SITE_URL, deliveryZones, site } from '../src/data/site'
-import { categories, menu } from '../src/data/menu'
-import { socialLinks } from '../src/data/content'
+import { categories, menu, menuById } from '../src/data/menu'
 import { DAY_NAMES } from '../src/lib/hours'
-import { fullTitle, notFoundMeta, routes, type RouteMeta } from '../src/lib/seo'
+import {
+  allRoutes,
+  fullTitle,
+  menuItemPath,
+  notFoundMeta,
+  routes,
+  type RouteMeta,
+} from '../src/lib/seo'
 
 /** Replaced with the generated head tags. Present in `index.html`. */
 const PLACEHOLDER = '<!--seo-->'
@@ -82,7 +88,12 @@ function restaurantSchema() {
       '@type': 'Place',
       name: `${zone.name}, Lagos`,
     })),
-    sameAs: socialLinks.map((link) => link.href),
+    /*
+     * No `sameAs`. It is the claim "these social profiles are this business",
+     * and the accounts in the footer are placeholders from the design file.
+     * Asserting unverifiable profiles to Google is worse than asserting none —
+     * point it at real accounts before adding it back.
+     */
   }
 }
 
@@ -139,15 +150,74 @@ function menuSchema() {
   }
 }
 
-function schemasFor(path: string): object[] {
-  if (path === '/') return [restaurantSchema(), websiteSchema()]
-  if (path === '/menu') return [menuSchema()]
+/** The dish, as its own indexable product-like entity. */
+function menuItemSchema(item: (typeof menu)[number]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'MenuItem',
+    '@id': `${SITE_URL}${menuItemPath(item)}#item`,
+    name: item.name,
+    description: item.detail,
+    image: `${SITE_URL}${item.image}`,
+    url: url(menuItemPath(item)),
+    ...(item.dietary?.includes('vegetarian')
+      ? { suitableForDiet: 'https://schema.org/VegetarianDiet' }
+      : {}),
+    offers: {
+      '@type': 'Offer',
+      price: naira(item.price),
+      priceCurrency: 'NGN',
+      availability: 'https://schema.org/InStock',
+      seller: { '@id': `${SITE_URL}/#restaurant` },
+    },
+    isPartOf: { '@id': `${SITE_URL}/menu#menu` },
+  }
+}
+
+/** Gives Google the "Home > Menu > Dish" trail it renders under a result. */
+function breadcrumbSchema(item: (typeof menu)[number]) {
+  const crumbs = [
+    { name: 'Home', item: url('/') },
+    { name: 'Menu', item: url('/menu') },
+    { name: item.name, item: url(menuItemPath(item)) },
+  ]
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: crumbs.map((crumb, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: crumb.name,
+      item: crumb.item,
+    })),
+  }
+}
+
+function schemasFor(meta: RouteMeta): object[] {
+  if (meta.path === '/') return [restaurantSchema(), websiteSchema()]
+  if (meta.path === '/menu') return [menuSchema()]
+
+  const item = meta.menuItemId ? menuById.get(meta.menuItemId) : undefined
+  if (item) return [menuItemSchema(item), breadcrumbSchema(item)]
+
   return []
+}
+
+function ogType(meta: RouteMeta): string {
+  if (meta.path === '/') return 'restaurant.restaurant'
+  if (meta.menuItemId) return 'restaurant.menu_item'
+  return 'website'
 }
 
 function headFor(meta: RouteMeta, base: string): string {
   const title = fullTitle(meta)
   const canonical = url(meta.path)
+
+  // A dish link should preview as that dish, not as the generic brand card.
+  const dish = meta.menuItemId ? menuById.get(meta.menuItemId) : undefined
+  const image = dish ? `${SITE_URL}${dish.image}` : OG_IMAGE
+  const imageAlt = dish ? dish.alt : `${site.name} — ${site.tagline}`
+  const imageSize = dish ? { width: 1024, height: 1024 } : { width: OG_WIDTH, height: OG_HEIGHT }
 
   const lines = [
     `<title>${escapeHtml(title)}</title>`,
@@ -158,22 +228,22 @@ function headFor(meta: RouteMeta, base: string): string {
       : '<meta name="robots" content="noindex, follow" />',
 
     '',
-    `<meta property="og:type" content="${meta.path === '/' ? 'restaurant.restaurant' : 'website'}" />`,
+    `<meta property="og:type" content="${ogType(meta)}" />`,
     `<meta property="og:site_name" content="${escapeHtml(site.name)}" />`,
     '<meta property="og:locale" content="en_NG" />',
     `<meta property="og:title" content="${escapeHtml(title)}" />`,
     `<meta property="og:description" content="${escapeHtml(meta.description)}" />`,
     `<meta property="og:url" content="${canonical}" />`,
-    `<meta property="og:image" content="${OG_IMAGE}" />`,
-    `<meta property="og:image:width" content="${OG_WIDTH}" />`,
-    `<meta property="og:image:height" content="${OG_HEIGHT}" />`,
-    `<meta property="og:image:alt" content="${escapeHtml(site.name + ' — ' + site.tagline)}" />`,
+    `<meta property="og:image" content="${image}" />`,
+    `<meta property="og:image:width" content="${imageSize.width}" />`,
+    `<meta property="og:image:height" content="${imageSize.height}" />`,
+    `<meta property="og:image:alt" content="${escapeHtml(imageAlt)}" />`,
 
     '',
     '<meta name="twitter:card" content="summary_large_image" />',
     `<meta name="twitter:title" content="${escapeHtml(title)}" />`,
     `<meta name="twitter:description" content="${escapeHtml(meta.description)}" />`,
-    `<meta name="twitter:image" content="${OG_IMAGE}" />`,
+    `<meta name="twitter:image" content="${image}" />`,
 
     '',
     `<link rel="icon" href="${base}favicon.svg" type="image/svg+xml" />`,
@@ -186,7 +256,7 @@ function headFor(meta: RouteMeta, base: string): string {
     `<meta name="geo.placename" content="${escapeHtml(site.address.area)}" />`,
   ]
 
-  for (const schema of schemasFor(meta.path)) {
+  for (const schema of schemasFor(meta)) {
     lines.push(
       '',
       `<script type="application/ld+json">${escapeJsonLd(JSON.stringify(schema))}</script>`,
@@ -200,7 +270,7 @@ function robotsTxt(): string {
   return [
     'User-agent: *',
     'Allow: /',
-    ...routes.filter((route) => !route.indexable).map((route) => `Disallow: ${route.path}`),
+    ...allRoutes.filter((route) => !route.indexable).map((route) => `Disallow: ${route.path}`),
     '',
     `Sitemap: ${SITE_URL}/sitemap.xml`,
     '',
@@ -208,7 +278,7 @@ function robotsTxt(): string {
 }
 
 function sitemapXml(lastmod: string): string {
-  const entries = routes
+  const entries = allRoutes
     .filter((route) => route.indexable)
     .map((route) =>
       [
@@ -269,7 +339,7 @@ export function seo(): Plugin {
 
       const render = (meta: RouteMeta) => shell.replace(PLACEHOLDER, headFor(meta, base))
 
-      for (const route of routes) {
+      for (const route of allRoutes) {
         if (route.path === '/') {
           entry.source = render(route)
           continue
@@ -292,6 +362,12 @@ export function seo(): Plugin {
       const lastmod = new Date().toISOString().slice(0, 10)
       this.emitFile({ type: 'asset', fileName: 'robots.txt', source: robotsTxt() })
       this.emitFile({ type: 'asset', fileName: 'sitemap.xml', source: sitemapXml(lastmod) })
+
+      const indexable = allRoutes.filter((route) => route.indexable).length
+      this.info(
+        `wrote ${allRoutes.length + 1} HTML files (${indexable} in the sitemap, ` +
+          `${menu.length} of them dish pages)`,
+      )
     },
   }
 }

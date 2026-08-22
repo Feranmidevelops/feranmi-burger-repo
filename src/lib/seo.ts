@@ -14,6 +14,7 @@
  */
 
 import { site } from '../data/site'
+import { menu, menuById, type MenuItem } from '../data/menu'
 
 export interface RouteMeta {
   /** Route path, always with a leading slash and no trailing one (except "/"). */
@@ -26,9 +27,22 @@ export interface RouteMeta {
   /** Sitemap hints. Ignored when `indexable` is false. */
   changefreq?: 'daily' | 'weekly' | 'monthly'
   priority?: number
+  /** Set on a dish page, so the build can attach that dish's JSON-LD. */
+  menuItemId?: string
 }
 
 export const HOME_TITLE = `${site.name} — ${site.tagline}`
+
+/** Google truncates a description around here; a preview card cuts sooner. */
+export const DESCRIPTION_MAX = 165
+
+/** Trims to a word boundary rather than mid-word, and only when it must. */
+export function clampDescription(text: string, max = DESCRIPTION_MAX): string {
+  if (text.length <= max) return text
+  const cut = text.slice(0, max - 1)
+  const lastSpace = cut.lastIndexOf(' ')
+  return `${(lastSpace > max * 0.6 ? cut.slice(0, lastSpace) : cut).replace(/[,.;:]$/, '')}…`
+}
 
 export const routes: readonly RouteMeta[] = [
   {
@@ -80,6 +94,33 @@ export const notFoundMeta: RouteMeta = {
   indexable: false,
 }
 
+export const menuItemPath = (item: MenuItem) => `/menu/${item.id}`
+
+/**
+ * A dish page's metadata, derived from the dish itself.
+ *
+ * These are the pages worth having: someone searching "suya smash lekki" wants
+ * one dish, not a ten-item list, and a dish link pasted into a chat should
+ * preview as that dish.
+ */
+export function menuItemMeta(item: MenuItem): RouteMeta {
+  return {
+    path: menuItemPath(item),
+    title: item.name,
+    description: clampDescription(item.detail),
+    indexable: true,
+    changefreq: 'monthly',
+    priority: 0.7,
+    menuItemId: item.id,
+  }
+}
+
+/** One entry per dish, in menu order. */
+export const menuItemRoutes: readonly RouteMeta[] = menu.map(menuItemMeta)
+
+/** Every page the build emits an HTML file for. */
+export const allRoutes: readonly RouteMeta[] = [...routes, ...menuItemRoutes]
+
 /** Normalises a pathname so "/menu/" and "/menu" resolve to the same entry. */
 export function normalisePath(pathname: string): string {
   const trimmed = pathname.replace(/\/+$/, '')
@@ -88,7 +129,14 @@ export function normalisePath(pathname: string): string {
 
 export function metaForPath(pathname: string): RouteMeta {
   const path = normalisePath(pathname)
-  return routes.find((route) => route.path === path) ?? notFoundMeta
+
+  const exact = routes.find((route) => route.path === path)
+  if (exact) return exact
+
+  const dish = path.startsWith('/menu/') ? menuById.get(path.slice('/menu/'.length)) : undefined
+  if (dish) return menuItemMeta(dish)
+
+  return notFoundMeta
 }
 
 export function fullTitle(meta: RouteMeta): string {

@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { badgeLabels, dietaryLabels, type MenuItem } from '../data/menu'
 import { useCart } from '../cart/CartContext'
 import { formatNaira } from '../lib/money'
 import { asset } from '../lib/asset'
+import { menuItemPath } from '../lib/seo'
 import { Check, Clock, Fire, Fish, Leaf, Plus, Warning } from '@phosphor-icons/react'
 import { Burst, ICON } from './Icons'
 import type { DietaryTag } from '../data/menu'
@@ -52,7 +54,16 @@ export function MenuCard({ item, priority = false }: { item: MenuItem; priority?
       )}
 
       <div className={styles.body}>
-        <h3 className={styles.name}>{item.name}</h3>
+        <h3 className={styles.name}>
+          {/*
+            The whole card is not a link: it holds an "add to cart" button, and
+            nesting an interactive control inside an anchor is invalid and
+            unusable with a keyboard. The name is the link instead.
+          */}
+          <Link className={styles.nameLink} to={menuItemPath(item)}>
+            {item.name}
+          </Link>
+        </h3>
         <p className={styles.description}>{item.description}</p>
 
         {item.dietary && item.dietary.length > 0 && (

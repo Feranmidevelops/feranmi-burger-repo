@@ -2,15 +2,23 @@ import { describe, expect, it } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { ReactNode } from 'react'
+import { MemoryRouter } from 'react-router-dom'
 import { MenuCard } from './MenuCard'
 import { CartProvider } from '../cart/CartContext'
 import { formatNaira } from '../lib/money'
 import { menu } from '../data/menu'
+import { menuItemPath } from '../lib/seo'
 
 const item = menu[0]
 if (!item) throw new Error('The menu is empty')
 
-const wrap = (ui: ReactNode) => render(<CartProvider>{ui}</CartProvider>)
+// The card links to its dish page, so it needs a router as well as the cart.
+const wrap = (ui: ReactNode) =>
+  render(
+    <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+      <CartProvider>{ui}</CartProvider>
+    </MemoryRouter>,
+  )
 
 describe('MenuCard', () => {
   it('shows the name, description and formatted price', () => {
@@ -67,6 +75,22 @@ describe('MenuCard', () => {
 
     const stored = JSON.parse(localStorage.getItem('feranmi.cart.v1') ?? '[]')
     expect(stored).toEqual([{ id: item.id, quantity: 1 }])
+  })
+
+  it('links the dish name to its own page', () => {
+    wrap(<MenuCard item={item} />)
+    const link = screen.getByRole('link', { name: item.name })
+    expect(link).toHaveAttribute('href', menuItemPath(item))
+  })
+
+  /*
+   * The card cannot itself be a link: it contains the add-to-cart button, and
+   * an interactive control inside an anchor is invalid and unusable by keyboard.
+   */
+  it('keeps the add button outside the link', () => {
+    wrap(<MenuCard item={item} />)
+    const link = screen.getByRole('link', { name: item.name })
+    expect(link.querySelector('button')).toBeNull()
   })
 
   it('shows the badge when the dish has one', () => {

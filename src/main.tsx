@@ -15,8 +15,13 @@ createRoot(container).render(
     {/* The outer net: catches anything the per-route boundary cannot, including
         a failure in the header, the footer or the cart provider itself. */}
     <ErrorBoundary variant="app">
-      {/* BASE_URL keeps routing correct when served from a GitHub Pages sub-path. */}
-      <BrowserRouter basename={import.meta.env.BASE_URL}>
+      {/* BASE_URL keeps routing correct when served from a GitHub Pages sub-path.
+          The future flags opt into React Router v7 behaviour now, so the upgrade
+          is not a behaviour change later. */}
+      <BrowserRouter
+        basename={import.meta.env.BASE_URL}
+        future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+      >
         {/* Icons track the font-size of their line; weight is set per usage. */}
         <IconContext.Provider value={{ size: '1em', weight: 'regular' }}>
           <CartProvider>
