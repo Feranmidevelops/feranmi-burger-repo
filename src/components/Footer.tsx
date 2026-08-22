@@ -4,6 +4,7 @@ import { footer, navLinks, socialLinks } from '../data/content'
 import { addressLine, site } from '../data/site'
 import { Clock, EnvelopeSimple, MapPin, Phone } from '@phosphor-icons/react'
 import { ICON, SocialIcon } from './Icons'
+import { OpenBadge, OpeningHours } from './OpeningHours'
 import styles from './Footer.module.css'
 
 export function Footer() {
@@ -101,16 +102,8 @@ export function Footer() {
               <Clock weight={ICON.strong} aria-hidden />
               Hours
             </h3>
-            <dl className={styles.hours}>
-              {site.hours.map((entry) => (
-                <div key={entry.days}>
-                  <dt>{entry.days}</dt>
-                  <dd>
-                    {entry.open} – {entry.close}
-                  </dd>
-                </div>
-              ))}
-            </dl>
+            <OpeningHours className={styles.hours} />
+            <OpenBadge className={styles.openBadge} />
           </div>
         </div>
       </div>

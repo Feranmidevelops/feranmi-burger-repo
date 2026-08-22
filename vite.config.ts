@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import { seo } from './plugins/seo'
 
 /**
  * GitHub Pages serves this project from /<repo>/, so the base path is set at
@@ -7,7 +8,7 @@ import react from '@vitejs/plugin-react'
  */
 export default defineConfig(({ mode }) => ({
   base: mode === 'production' ? process.env.BASE_PATH || '/' : '/',
-  plugins: [react()],
+  plugins: [react(), seo()],
   server: { port: 5173, open: true },
   build: { target: 'es2020' },
 }))

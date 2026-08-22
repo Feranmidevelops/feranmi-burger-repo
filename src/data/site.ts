@@ -1,4 +1,11 @@
-/** Business details for the Lagos operation. Single source of truth. */
+/**
+ * Business details for the Lagos operation. Single source of truth.
+ *
+ * This module is imported by the app *and* by `vite.config.ts`, which uses it to
+ * generate the JSON-LD, the social meta tags and the sitemap at build time. Keep
+ * it free of browser globals and of `import.meta.env` so it stays importable
+ * from Node.
+ */
 
 export interface DeliveryZone {
   id: string
@@ -8,6 +15,21 @@ export interface DeliveryZone {
   /** Rough delivery window, shown at checkout. */
   eta: string
 }
+
+/**
+ * A block of opening hours. `days` uses JavaScript's weekday numbering
+ * (0 = Sunday) so it can be compared against a real clock rather than parsed
+ * back out of the label.
+ */
+export interface HoursBlock {
+  days: readonly number[]
+  /** 24-hour "HH:MM", in the restaurant's own timezone. */
+  open: string
+  close: string
+}
+
+/** Canonical origin. Overridden at build time by the SITE_URL env var. */
+export const SITE_URL = 'https://feranmidevelops.github.io/feranmi-burger-repo'
 
 export const site = {
   name: 'Feranmi Restaurant',
@@ -22,15 +44,20 @@ export const site = {
     city: 'Lagos',
     state: 'Lagos State',
     country: 'Nigeria',
+    postalCode: '106104',
   },
+  /** Admiralty Way, Lekki Phase 1. Used for the LocalBusiness geo block. */
+  geo: { latitude: 6.4416, longitude: 3.4761 },
   hours: [
-    { days: 'Monday – Thursday', open: '11:00', close: '22:00' },
-    { days: 'Friday – Saturday', open: '11:00', close: '23:30' },
-    { days: 'Sunday', open: '12:00', close: '21:00' },
-  ],
+    { days: [1, 2, 3, 4], open: '11:00', close: '22:00' },
+    { days: [5, 6], open: '11:00', close: '23:30' },
+    { days: [0], open: '12:00', close: '21:00' },
+  ] as readonly HoursBlock[],
   /** West Africa Time — the restaurant's local timezone. */
   timeZone: 'Africa/Lagos',
-  instagram: 'https://instagram.com',
+  instagram: 'https://instagram.com/feranmirestaurant',
+  /** Rough per-head spend, as Google's priceRange notation. */
+  priceRange: '₦₦',
 } as const
 
 export const addressLine = `${site.address.street}, ${site.address.area}, ${site.address.city}`

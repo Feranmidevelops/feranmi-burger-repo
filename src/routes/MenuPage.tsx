@@ -6,7 +6,6 @@ import { MagnifyingGlass } from '@phosphor-icons/react'
 import { Select } from '../components/Select'
 import { ICON } from '../components/Icons'
 import { PageHeader, EmptyState } from '../components/ui'
-import { useDocumentTitle } from '../hooks/useDocumentTitle'
 import styles from './MenuPage.module.css'
 
 type Sort = 'default' | 'price-asc' | 'price-desc'
@@ -30,7 +29,6 @@ function isSort(value: string | null): value is Sort {
  * button steps through it.
  */
 export function MenuPage() {
-  useDocumentTitle('Menu')
   const [params, setParams] = useSearchParams()
 
   const category = isCategory(params.get('category')) ? (params.get('category') as Category) : null

@@ -1,0 +1,63 @@
+.badge {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5ch;
+  margin: 0;
+  font-size: var(--fs-small);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+.dot {
+  align-self: center;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: currentColor;
+  /* The dot alone carries the state for anyone who cannot read the colour. */
+  box-shadow: 0 0 0 0.1875rem color-mix(in srgb, currentColor 22%, transparent);
+}
+
+.badge[data-open='true'] .dot {
+  color: #1f8a3b;
+}
+
+.badge[data-open='false'] .dot {
+  color: var(--c-orange);
+}
+
+.label {
+  text-transform: uppercase;
+}
+
+.detail {
+  font-weight: 400;
+  opacity: 0.75;
+}
+
+/* On narrow screens the badge sits beside the cart — keep it to two words. */
+@media (max-width: 47.99em) {
+  .detail {
+    display: none;
+  }
+}
+
+.closed {
+  display: flex;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 1rem;
+  background: var(--c-yellow);
+  border: 2px solid var(--c-ink);
+  font-size: var(--fs-small);
+  line-height: 1.45;
+}
+
+.closedIcon {
+  flex: none;
+  margin-top: 0.15em;
+  font-size: 1.25rem;
+  color: var(--c-orange);
+}

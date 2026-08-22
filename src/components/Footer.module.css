@@ -244,3 +244,8 @@
     justify-content: center;
   }
 }
+
+.openBadge {
+  margin-top: 0.75rem;
+  color: var(--c-white);
+}

@@ -1,11 +1,9 @@
 import { Link } from 'react-router-dom'
 import { ForkKnife } from '@phosphor-icons/react'
 import { EmptyState, PageHeader } from '../components/ui'
-import { useDocumentTitle } from '../hooks/useDocumentTitle'
 import styles from './NotFound.module.css'
 
 export function NotFound() {
-  useDocumentTitle('Page not found')
   return (
     <>
       <PageHeader eyebrow="404" title="That page is off the menu" />

@@ -10,9 +10,9 @@ import {
 import { futureDate, isClean, minLength, nigerianPhone, type Errors } from '../lib/validation'
 import { Field, PageHeader } from '../components/ui'
 import { Select } from '../components/Select'
-import { useDocumentTitle } from '../hooks/useDocumentTitle'
 import { Check, Clock, MapPin, Phone, WhatsappLogo } from '@phosphor-icons/react'
 import { ICON } from '../components/Icons'
+import { OpenBadge, OpeningHours } from '../components/OpeningHours'
 import { asset } from '../lib/asset'
 import styles from './ReservationsPage.module.css'
 
@@ -69,7 +69,6 @@ function readableDate(iso: string): string {
 }
 
 export function ReservationsPage() {
-  useDocumentTitle('Book a table')
   const [form, setForm] = useState<Form>(initial)
   const [errors, setErrors] = useState<Errors<Form>>({})
   const [submitted, setSubmitted] = useState(false)
@@ -284,16 +283,8 @@ export function ReservationsPage() {
                 <Clock weight={ICON.strong} aria-hidden />
                 Opening hours
               </h3>
-              <dl className={styles.hours}>
-                {site.hours.map((entry) => (
-                  <div key={entry.days}>
-                    <dt>{entry.days}</dt>
-                    <dd>
-                      {entry.open} – {entry.close}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
+              <OpeningHours className={styles.hours} />
+              <OpenBadge className={styles.openBadge} />
               <p className={styles.small}>All times West Africa Time (WAT).</p>
 
               <Link className={styles.secondary} to="/menu">

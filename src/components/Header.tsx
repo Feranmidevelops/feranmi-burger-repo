@@ -4,6 +4,7 @@ import { navLinks } from '../data/content'
 import { useCart } from '../cart/CartContext'
 import { Hamburger, ShoppingBag, X } from '@phosphor-icons/react'
 import { ICON } from './Icons'
+import { OpenBadge } from './OpeningHours'
 import styles from './Header.module.css'
 
 export function Header() {
@@ -58,6 +59,8 @@ export function Header() {
         </nav>
 
         <div className={styles.actions}>
+          <OpenBadge className={styles.status} />
+
           <Link className={styles.cart} to="/cart">
             <ShoppingBag className={styles.cartIcon} weight={ICON.strong} />
             <span className="visuallyHidden">
@@ -102,6 +105,10 @@ export function Header() {
           ))}
           <li>
             <Link to="/cart">Cart{count > 0 ? ` (${count})` : ''}</Link>
+          </li>
+          <li>
+            {/* The compact badge in the bar drops its detail line on mobile. */}
+            <OpenBadge className={styles.mobileStatus} />
           </li>
         </ul>
       </nav>

@@ -13,10 +13,11 @@ import {
   type Errors,
 } from '../lib/validation'
 import { EmptyState, Field, PageHeader, Summary } from '../components/ui'
-import { useDocumentTitle } from '../hooks/useDocumentTitle'
 import { Check, Storefront, Truck } from '@phosphor-icons/react'
 import { ICON } from '../components/Icons'
 import { InvoiceActions } from '../components/InvoiceActions'
+import { ClosedNotice } from '../components/OpeningHours'
+import { useOpenState } from '../hooks/useOpenState'
 import { Select } from '../components/Select'
 import styles from './CheckoutPage.module.css'
 
@@ -60,11 +61,11 @@ function validate(form: Form, subtotal: number): Errors<Form> {
 }
 
 export function CheckoutPage() {
-  useDocumentTitle('Checkout')
   const { lines, count, subtotal, clear } = useCart()
   const [form, setForm] = useState<Form>(initial)
   const [errors, setErrors] = useState<Errors<Form>>({})
   const [submitted, setSubmitted] = useState(false)
+  const trading = useOpenState()
   const [placed, setPlaced] = useState<OrderDetails | null>(null)
 
   const zone = useMemo(
@@ -192,6 +193,8 @@ export function CheckoutPage() {
         <div className="container">
           <div className={styles.layout}>
             <form className={styles.form} onSubmit={onSubmit} noValidate>
+              <ClosedNotice className={styles.closedNotice} />
+
               <fieldset className={styles.group}>
                 <legend className={styles.legend}>How do you want it?</legend>
                 <div className={styles.choices}>
@@ -318,7 +321,7 @@ export function CheckoutPage() {
               </Field>
 
               <button type="submit" className={styles.primary}>
-                Place order
+                {trading.open ? 'Place order' : 'Send as a pre-order'}
               </button>
             </form>
 

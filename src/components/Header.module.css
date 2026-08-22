@@ -179,3 +179,27 @@
     transform: translateY(-8px);
   }
 }
+
+/*
+ * Trading status. Hidden on the narrowest bars where the brand, cart and menu
+ * button already fill the row — the mobile menu carries it there instead.
+ */
+.status {
+  display: none;
+}
+
+@media (min-width: 40em) {
+  .status {
+    display: inline-flex;
+  }
+}
+
+.mobileStatus {
+  font-size: var(--fs-nav);
+}
+
+@media (min-width: 40em) {
+  .mobileStatus {
+    display: none;
+  }
+}

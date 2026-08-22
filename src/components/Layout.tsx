@@ -2,6 +2,8 @@ import { useEffect, useRef } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import { Header } from './Header'
 import { Footer } from './Footer'
+import { ErrorBoundary } from './ErrorBoundary'
+import { useSeo } from '../hooks/useSeo'
 
 /**
  * Moves focus and scroll on navigation. Without this a router leaves screen
@@ -31,6 +33,8 @@ function useRouteChange() {
 
 export function Layout() {
   useRouteChange()
+  useSeo()
+  const { pathname } = useLocation()
 
   return (
     <>
@@ -39,7 +43,11 @@ export function Layout() {
       </a>
       <Header />
       <main id="main" tabIndex={-1}>
-        <Outlet />
+        {/* Keyed on the path so navigating away from a broken page clears the
+            error rather than leaving the visitor stranded on it. */}
+        <ErrorBoundary key={pathname} variant="route">
+          <Outlet />
+        </ErrorBoundary>
       </main>
       <Footer />
     </>

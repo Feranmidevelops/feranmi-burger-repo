@@ -6,11 +6,9 @@ import { formatNaira } from '../lib/money'
 import { asset } from '../lib/asset'
 import { DELIVERY_MINIMUM } from '../data/site'
 import { EmptyState, PageHeader, QuantityStepper, Summary } from '../components/ui'
-import { useDocumentTitle } from '../hooks/useDocumentTitle'
 import styles from './CartPage.module.css'
 
 export function CartPage() {
-  useDocumentTitle('Your order')
   const { lines, count, subtotal, setQuantity, setNote, remove, clear } = useCart()
 
   const belowMinimum = subtotal > 0 && subtotal < DELIVERY_MINIMUM
