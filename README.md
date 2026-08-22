@@ -11,12 +11,14 @@ npm install
 npm run dev
 ```
 
-| script              | what it does                               |
-| ------------------- | ------------------------------------------ |
-| `npm run dev`       | Vite dev server on <http://localhost:5173> |
-| `npm run build`     | typecheck + production build to `dist/`    |
-| `npm run preview`   | serve the production build                 |
-| `npm run typecheck` | `tsc --noEmit`                             |
+| script               | what it does                               |
+| -------------------- | ------------------------------------------ |
+| `npm run dev`        | Vite dev server on <http://localhost:5173> |
+| `npm run build`      | typecheck + production build to `dist/`    |
+| `npm test`           | Vitest, one pass                           |
+| `npm run test:watch` | Vitest in watch mode                       |
+| `npm run preview`    | serve the production build                 |
+| `npm run typecheck`  | `tsc --noEmit`                             |
 
 ## What it does
 
@@ -33,6 +35,9 @@ npm run dev
 - **Invoice** — every placed order renders a one-page A4 PDF (jsPDF, loaded on
   demand) that the customer can download, or push straight into WhatsApp via the
   native share sheet on mobile.
+- **Opening hours that mean something.** The trading state is computed against
+  the clock in `Africa/Lagos`, not the visitor's timezone: a live badge in the
+  header, and a notice at checkout when the kitchen is shut.
 
 ### Why WhatsApp
 
@@ -51,9 +56,12 @@ src/
   routes/        one file per page (home, menu, cart, checkout, reservations, 404)
   components/    layout, header/footer, page sections, shared UI primitives
   cart/          cart reducer + context, localStorage persistence
-  lib/           money, validation, WhatsApp message builders, asset paths
+  lib/           money, hours, SEO metadata, validation, WhatsApp builders
   data/          menu, business details, landing-page copy
-  hooks/         media query, document title
+  hooks/         media query, trading state, per-route head tags
+  test/          Vitest setup
+plugins/         build-time SEO: per-route HTML, JSON-LD, sitemap, robots
+scripts/         brand asset generation, Pages postbuild
 ```
 
 React 18 + TypeScript (`strict`, plus `noUnusedLocals` and
@@ -82,6 +90,29 @@ Decisions worth flagging:
 - **One set of control metrics.** `--control-min-h`, `--control-pad-x` and
   `--control-pad-y` in `tokens.css` are shared by every input, textarea and
   select, so nothing drifts out of alignment.
+- **The kitchen has a clock.** Opening hours are stored as day *numbers* in
+  [`site.ts`](src/data/site.ts) and the words ("Monday – Thursday") are derived,
+  so the label can never disagree with the schedule. `openState()` in
+  [`hours.ts`](src/lib/hours.ts) is pure — `now` is always passed in — and works
+  in `Africa/Lagos`, so somebody browsing from London at midnight is told the
+  kitchen is shut rather than being sold a burger nobody is there to cook. It is
+  a warning at checkout, not a block: the order still goes through as a
+  pre-order, because refusing it just sends the customer elsewhere.
+- **Crawlers get real HTML.** A single-page app ships one `index.html` with one
+  title, and neither Google nor the WhatsApp link unfurler runs JavaScript — so
+  a pasted link shows no preview card and the whole site indexes as one untitled
+  page. [`plugins/seo.ts`](plugins/seo.ts) emits a separate static file per route
+  at build time (`menu/index.html` and so on), each with its own title,
+  description, canonical and Open Graph tags, plus `Restaurant` / `Menu` JSON-LD,
+  `sitemap.xml` and `robots.txt`. All of it is generated from `src/data/*` and
+  the route table in [`seo.ts`](src/lib/seo.ts), so the markup cannot drift from
+  the app, and [`useSeo`](src/hooks/useSeo.ts) keeps the same tags in step during
+  client-side navigation.
+- **Nothing goes blank.** An error boundary wraps the whole app and a second one
+  wraps the route outlet, keyed on the pathname so navigating away clears the
+  error. A crash costs a section, not the page — and the fallback still offers
+  the WhatsApp number, because a customer who wants food should not be blocked
+  by a rendering bug.
 - **Icon weight follows text weight.** Icons are Phosphor. An icon's stroke
   matches the weight of the text it sits beside — `regular` next to Oswald 400,
   `bold` next to Oswald 600 — expressed as `ICON.body` / `ICON.strong` in
@@ -90,13 +121,53 @@ Decisions worth flagging:
   its line instead of carrying its own scale. Brand marks (WhatsApp, the marquee
   sparkle) use `fill`, matching how the Figma file drew them.
 
+## Tests
+
+136 tests, `npm test`. They sit on the parts where a bug is expensive rather
+than chasing a coverage number:
+
+| suite                  | what it protects                                             |
+| ---------------------- | ------------------------------------------------------------ |
+| `money`                | kobo → naira at the one point integers become text            |
+| `hours`                | open/closed across every boundary, timezone, and past midnight |
+| `cartReducer`          | merging, clamping, unknown ids, and that it never mutates      |
+| `validation`           | Nigerian mobile formats, E.164, the booking window             |
+| `whatsapp`             | the order message — the only record the kitchen ever sees      |
+| `seo`                  | titles and descriptions inside the lengths Google truncates at |
+| `Select`               | the WAI-ARIA combobox keyboard contract, end to end            |
+| `MenuCard`             | price, alt text, eager-vs-lazy, and the write to storage       |
+| `OpeningHours`         | the live badge, against a faked clock                          |
+
+The WhatsApp suite is the one worth reading. There is no database and no order
+API, so whatever lands in that chat *is* the order — anything missing from the
+message is an order that cannot be cooked or delivered.
+
 ## Deployment
 
 Pushing to `main` runs [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml):
-typecheck, build with the Pages sub-path as the Vite base, publish.
-`scripts/postbuild.mjs` copies `index.html` to `404.html` so deep links like
-`/menu` boot the router — GitHub Pages has no SPA rewrite and serves `404.html`
-for unknown paths.
+typecheck, test, build with the Pages sub-path as the Vite base, publish. Every
+other branch and pull request runs the same checks via
+[`ci.yml`](.github/workflows/ci.yml) without deploying.
+
+GitHub Pages has no SPA rewrite and serves `404.html` for unknown paths, so the
+SEO plugin emits the app shell there too — a deep link still boots the router
+while the HTTP status stays a truthful 404.
+
+One caveat of the `github.io/<repo>/` sub-path: crawlers only read `robots.txt`
+from a domain root, so the generated one is advisory until the site moves to a
+custom domain. The `noindex` meta tags on `/cart` and `/checkout` do the real
+work, and `sitemap.xml` can be submitted directly in Search Console.
+
+## Brand assets
+
+`public/favicon.svg`, the PNG icon set, `favicon.ico` and the 1200×630 Open Graph
+card are generated by [`scripts/make-icons.mjs`](scripts/make-icons.mjs) from one
+shared path definition, so no size can drift from another. The output is
+committed; `sharp` is not a project dependency. Regenerate with:
+
+```bash
+npx --yes --package sharp node scripts/make-icons.mjs
+```
 
 ## Where the design came from
 
