@@ -131,7 +131,7 @@ Decisions worth flagging:
 
 ## Tests
 
-217 tests, `npm test`. They sit on the parts where a bug is expensive rather
+252 tests, `npm test`. They sit on the parts where a bug is expensive rather
 than chasing a coverage number:
 
 | suite                  | what it protects                                             |
@@ -148,12 +148,30 @@ than chasing a coverage number:
 | `orders`               | history survives a changing menu; nothing personal is stored   |
 | `upsell`               | only ever complements — never a second main                    |
 | `RecentOrders`         | one-tap re-order puts the whole order back, notes included     |
+| `assets`               | every image path matches a real file, case included            |
 
 The WhatsApp suite is the one worth reading. There is no database and no order
 API, so whatever lands in that chat *is* the order — anything missing from the
 message is an order that cannot be cooked or delivered.
 
 ## Deployment
+
+Everything the site serves — HTML, JS, CSS and every photograph — is one static
+bundle built from the repo and published to GitHub Pages. There is no image host,
+no CDN account and no hotlinked URL that can expire: `public/img` is committed,
+Vite copies it into `dist/` verbatim, and the whole directory is uploaded as the
+Pages artifact. The images keep working for exactly as long as the repo exists.
+
+Paths go through [`asset()`](src/lib/asset.ts), which prefixes
+`import.meta.env.BASE_URL`, because Pages serves the site from `/<repo>/` and a
+bare `/img/x.jpg` would 404 there.
+
+The one way this breaks quietly is filename case. Windows and macOS do not care;
+the Linux runner and Pages do, so `/img/Chapman.jpg` against `chapman.jpg` works
+on a laptop and 404s in production. [`assets.test.ts`](src/data/assets.test.ts)
+checks every referenced path against the real filenames, catches a src that
+skips `asset()`, and pins the list of unused files — and it runs before the
+deploy step, so a mismatch fails the build rather than the site.
 
 Pushing to `main` runs [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml):
 typecheck, test, build with the Pages sub-path as the Vite base, publish. Every
