@@ -38,6 +38,14 @@ npm run dev
 - **Opening hours that mean something.** The trading state is computed against
   the clock in `Africa/Lagos`, not the visitor's timezone: a live badge in the
   header, and a notice at checkout when the kitchen is shut.
+- **A page per dish** at `/menu/:id`, with the long-form copy, a quantity
+  stepper, breadcrumbs and "goes well with". Each one is a static HTML file with
+  its own title, description and photo, so a dish link pasted into a chat
+  previews as that dish.
+- **Order again.** Placed orders are kept on the device and re-orderable in one
+  tap, notes included. No account, nothing sent anywhere.
+- **"Anything with that?"** — a side or a drink offered at the cart when the
+  order has a main but no complement. Never a second main.
 
 ### Why WhatsApp
 
@@ -55,8 +63,8 @@ how the model actually works.
 src/
   routes/        one file per page (home, menu, cart, checkout, reservations, 404)
   components/    layout, header/footer, page sections, shared UI primitives
-  cart/          cart reducer + context, localStorage persistence
-  lib/           money, hours, SEO metadata, validation, WhatsApp builders
+  cart/          cart reducer + context, order history, localStorage persistence
+  lib/           money, hours, SEO metadata, upsell rules, validation, WhatsApp
   data/          menu, business details, landing-page copy
   hooks/         media query, trading state, per-route head tags
   test/          Vitest setup
@@ -123,7 +131,7 @@ Decisions worth flagging:
 
 ## Tests
 
-136 tests, `npm test`. They sit on the parts where a bug is expensive rather
+217 tests, `npm test`. They sit on the parts where a bug is expensive rather
 than chasing a coverage number:
 
 | suite                  | what it protects                                             |
@@ -137,6 +145,9 @@ than chasing a coverage number:
 | `Select`               | the WAI-ARIA combobox keyboard contract, end to end            |
 | `MenuCard`             | price, alt text, eager-vs-lazy, and the write to storage       |
 | `OpeningHours`         | the live badge, against a faked clock                          |
+| `orders`               | history survives a changing menu; nothing personal is stored   |
+| `upsell`               | only ever complements — never a second main                    |
+| `RecentOrders`         | one-tap re-order puts the whole order back, notes included     |
 
 The WhatsApp suite is the one worth reading. There is no database and no order
 API, so whatever lands in that chat *is* the order — anything missing from the
@@ -212,10 +223,29 @@ Nothing in the file uses a corner radius except the review avatars.
 ## Images
 
 All photography came out of the `.fig` archive, including ten assets the design
-never placed. They ship at up to 4096px in the file and have been resampled to
-roughly 2× their largest rendered size as progressive JPEG — **12.05 MB →
-1.6 MB**. Everything below the fold is `loading="lazy"`.
+never placed. They ship at up to 4096px in the file and are resampled to roughly
+2× their largest rendered size as progressive JPEG — 12.05 MB → 1.9 MB.
+Everything below the fold is `loading="lazy"`.
 
-They are placeholders from the design file, not photographs of the dishes they
-are labelled with. Swapping in real photography means replacing files in
-`public/img/` and updating the paths in [`src/data/menu.ts`](src/data/menu.ts).
+[`scripts/resample-dish-photos.mjs`](scripts/resample-dish-photos.mjs) re-derives
+the large photographs from the archive. It matches shipped files to their sources
+by perceptual signature, and the direction of that matching matters: it runs
+**original → shipped file**, never the reverse. The archive holds only ten
+distinct food photographs and several shipped images are crops of them, so asking
+"what is the best source for this crop?" answers with the crop's parent and
+quietly gives two dishes the same picture. Asking "which one file is this
+original?" cannot. A crop finds no original of its own and is left at the size it
+already had. The script hashes the results afterwards and fails if any two came
+out identical.
+
+### These are placeholders
+
+The photographs are from the design file, not of the dishes they are labelled
+with. Most are at least plausible; one is not — **Chapman, a drink, is
+illustrated with a cheeseburger**, because the archive contains no photograph of
+a drink and the only glass in it is an out-of-focus background element. That one
+needs a real photograph.
+
+Swapping in real photography means replacing files in `public/img/` and updating
+the paths in [`src/data/menu.ts`](src/data/menu.ts). Dish pages render at 640px,
+so supply at least 1280px on the long edge.
